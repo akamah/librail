@@ -1,0 +1,25 @@
+{
+  "name": "librail",
+  "version": "0.1.0",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --compilers ts:espower-typescript/guess test/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akamah/librail.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/mocha": "^2.2.43",
+    "@types/power-assert": "^1.4.29",
+    "espower-typescript": "^8.1.1",
+    "mocha": "^3.5.3",
+    "power-assert": "^1.4.4",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {
+    "@types/node": "^8.0.28"
+  }
+}
