@@ -1,0 +1,2 @@
+*.js -crlf -diff
+*.d.ts -crlf -diff

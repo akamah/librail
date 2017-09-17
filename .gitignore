@@ -153,8 +153,3 @@ package-lock.json
 !.vscode/extensions.json
 
 # End of https://www.gitignore.io/api/visualstudiocode
-
-
-# My settings
-
-build/
