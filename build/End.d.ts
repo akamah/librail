@@ -9,6 +9,6 @@ export declare class End {
     static of(point: Point, dir: Dir, pole: Pole): End;
     static plus(point: Point, dir: Dir): End;
     static minus(point: Point, dir: Dir): End;
-    match(other: End): Boolean;
+    match(other: End): boolean;
     transformBy(global: End): End;
 }

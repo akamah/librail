@@ -10,7 +10,7 @@ export declare enum Dir {
     NorthEast = 7,
 }
 export declare namespace Dir {
-    function match(a: Dir, b: Dir): Boolean;
+    function match(a: Dir, b: Dir): boolean;
     function opposite(a: Dir): Dir;
     function neg(a: Dir): Dir;
     function rotate(target: Dir, by: Dir): Dir;

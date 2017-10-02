@@ -13,7 +13,7 @@ export enum Dir {
 }
 
 export namespace Dir {
-    export function match(a: Dir, b: Dir): Boolean {
+    export function match(a: Dir, b: Dir): boolean {
         return opposite(a) == b;
     }
 

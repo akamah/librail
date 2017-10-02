@@ -4,7 +4,7 @@ export enum Pole {
 }
 
 export namespace Pole {
-    export function match(a: Pole, b: Pole): Boolean {
+    export function match(a: Pole, b: Pole): boolean {
         return a != b;
     }
 

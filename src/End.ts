@@ -21,7 +21,7 @@ export class End {
         return new this(point, dir, Pole.Minus);
     }
 
-    public match(other: End): Boolean {
+    public match(other: End): boolean {
         return this.point == other.point &&
             Dir.match(this.dir, other.dir) &&
             Pole.match(this.pole, other.pole);
