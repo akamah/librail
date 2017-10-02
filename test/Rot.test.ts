@@ -26,4 +26,10 @@ describe("Rot", () => {
         assert(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 1, 0)).equal(Rot.of(-3, -4, 1, 2)));
         assert(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 0, 1)).equal(Rot.of(-2, -3, -4, 1)));
     });
+
+    it('invert', () => {
+        assert(Rot.of(1, 0, 0, 0).invert().equal(Rot.of(-1, 0, 0, 0)));
+        assert(Rot.of(0, 1, 0, 0).invert().equal(Rot.of(0, 0, 0, 1)));
+        assert(Rot.of(0, 0, 1, 0).invert().equal(Rot.of(0, 0, 1, 0)));
+    });
 });

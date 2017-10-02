@@ -33,6 +33,14 @@ export namespace Dir {
         return rotate(target, by);
     }
 
+    export function invert(target: Dir, inverse = true): Dir {
+        if (inverse) {
+            return Dir.neg(target);
+        } else {
+            return target;
+        }
+    }
+
     export function toRot(target: Dir): Rot {
         const tab = [
             new Rot(1, 0, 0, 0),
@@ -42,7 +50,7 @@ export namespace Dir {
             new Rot(-1,0, 0, 0),
             new Rot(0, -1,0, 0),
             new Rot(0, 0, -1,0),
-            new Rot(0, 0, 0, -1)
+            new Rot(0, 0, 0,-1)
         ]
 
         return tab[target % 8];

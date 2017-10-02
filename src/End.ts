@@ -36,4 +36,15 @@ export class End {
             Dir.translateBy(this.dir, global.dir),
             Pole.translateBy(this.pole, global.pole));
     }
+
+    // flip horizontally
+    public invert(inverse = true): End {
+        if (inverse) {
+            return End.of(this.point.invert(inverse),
+                          Dir.invert(this.dir, inverse),
+                          this.pole)
+        } else {
+            return this
+        }
+    }
 }

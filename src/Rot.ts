@@ -42,6 +42,14 @@ export class Rot {
         );
     }
 
+    public invert(inverse = true): Rot {
+        if (inverse) {
+            return Rot.of(-this.a, this.d, this.c, this.b)
+        } else {
+            return this;
+        }
+    }
+
     public equal(that: Rot): boolean {
         return this.a === that.a &&
             this.b === that.b &&

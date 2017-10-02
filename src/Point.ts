@@ -60,5 +60,16 @@ export class Point {
             this.up
         )
     }
+
+    public invert(inverse = true): Point {
+        if (inverse) {
+            return Point.of(
+                this.single.invert(inverse),
+                this.double.invert(inverse),
+                -this.up)
+        } else {
+            return this
+        }
+    }
 }
 
