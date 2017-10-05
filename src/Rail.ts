@@ -23,7 +23,7 @@ export abstract class Rail {
 
 export class StraightRail extends Rail {
     constructor(
-        public readonly end: End,
+        public readonly origin: End,
         public readonly inverse: boolean
     ) {
         super();
@@ -31,14 +31,14 @@ export class StraightRail extends Rail {
 
     protected localEnds(): End[] {
         return [
-            End.minus(Point.zero(), Dir.South),
-            End.plus(Point.of(Rot.of(4)), Dir.North)
+            End.minus(Point.zero(), Dir.West),
+            End.plus(Point.of(Rot.of(4)), Dir.East)
         ];
     }
 
     public ends(): End[] {
         return this.localEnds().map(e =>
-            e.invert(this.inverse).transformBy(this.end)
+            e.invert(this.inverse).transformBy(this.origin)
         );
     }
 }
