@@ -28,8 +28,8 @@ describe("Rot", () => {
     });
 
     it('invert', () => {
-        assert(Rot.of(1, 0, 0, 0).invert().equal(Rot.of(-1, 0, 0, 0)));
-        assert(Rot.of(0, 1, 0, 0).invert().equal(Rot.of(0, 0, 0, 1)));
-        assert(Rot.of(0, 0, 1, 0).invert().equal(Rot.of(0, 0, 1, 0)));
+        assert(Rot.of(1, 0, 0, 0).invert().equal(Rot.of(1, 0, 0, 0)));
+        assert(Rot.of(0, 1, 0, 0).invert().equal(Rot.of(0, 0, 0, -1)));
+        assert(Rot.of(0, 0, 1, 0).invert().equal(Rot.of(0, 0, -1, 0)));
     });
 });

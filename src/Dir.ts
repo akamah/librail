@@ -2,14 +2,14 @@ import { Rot } from './Rot';
 
 
 export enum Dir {
-    North = 0,
+    East = 0,
+    NorthEast,
+    North,
     NorthWest,
     West,
     SouthWest,
     South,
-    SouthEast,
-    East,
-    NorthEast
+    SouthEast
 }
 
 export namespace Dir {

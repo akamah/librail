@@ -29,7 +29,7 @@ export class End {
 
     public transformBy(global: End): End {
         const rotated = this.point.rotateBy(global.dir);
-        const transformed = this.point.transformBy(global.point);
+        const transformed = rotated.transformBy(global.point);
 
         return End.of(
             transformed,
