@@ -49,11 +49,4 @@ export class Rot {
             return this;
         }
     }
-
-    public equal(that: Rot): boolean {
-        return this.a === that.a &&
-            this.b === that.b &&
-            this.c === that.c &&
-            this.d === that.d;
-    }
 }

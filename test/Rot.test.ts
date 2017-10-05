@@ -21,15 +21,15 @@ describe("Rot", () => {
     });
 
     it('mul', () => {
-        assert(Rot.of(1, 2, 3, 4).mul(Rot.of(1, 0, 0, 0)).equal(Rot.of(1, 2, 3, 4)));
-        assert(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 1, 0, 0)).equal(Rot.of(-4, 1, 2, 3)));
-        assert(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 1, 0)).equal(Rot.of(-3, -4, 1, 2)));
-        assert(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 0, 1)).equal(Rot.of(-2, -3, -4, 1)));
+        assert.deepEqual(Rot.of(1, 2, 3, 4).mul(Rot.of(1, 0, 0, 0)), Rot.of(1, 2, 3, 4));
+        assert.deepEqual(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 1, 0, 0)), Rot.of(-4, 1, 2, 3));
+        assert.deepEqual(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 1, 0)), Rot.of(-3, -4, 1, 2));
+        assert.deepEqual(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 0, 1)), Rot.of(-2, -3, -4, 1));
     });
 
     it('invert', () => {
-        assert(Rot.of(1, 0, 0, 0).invert().equal(Rot.of(1, 0, 0, 0)));
-        assert(Rot.of(0, 1, 0, 0).invert().equal(Rot.of(0, 0, 0, -1)));
-        assert(Rot.of(0, 0, 1, 0).invert().equal(Rot.of(0, 0, -1, 0)));
+        assert.deepEqual(Rot.of(1, 0, 0, 0).invert(), Rot.of(1, 0, 0, 0));
+        assert.deepEqual(Rot.of(0, 1, 0, 0).invert(), Rot.of(0, 0, 0, -1));
+        assert.deepEqual(Rot.of(0, 0, 1, 0).invert(), Rot.of(0, 0, -1, 0));
     });
 });
