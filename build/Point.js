@@ -46,5 +46,13 @@ class Point {
     rotateBy(dir) {
         return new Point(this.single.mul(Dir_1.Dir.toRot(dir)), this.double.mul(Dir_1.Dir.toRot(dir)), this.up);
     }
+    invert(inverse = true) {
+        if (inverse) {
+            return Point.of(this.single.invert(inverse), this.double.invert(inverse), -this.up);
+        }
+        else {
+            return this;
+        }
+    }
 }
 exports.Point = Point;

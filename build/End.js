@@ -24,8 +24,17 @@ class End {
     }
     transformBy(global) {
         const rotated = this.point.rotateBy(global.dir);
-        const transformed = this.point.transformBy(global.point);
+        const transformed = rotated.transformBy(global.point);
         return End.of(transformed, Dir_1.Dir.translateBy(this.dir, global.dir), Pole_1.Pole.translateBy(this.pole, global.pole));
+    }
+    // flip horizontally
+    invert(inverse = true) {
+        if (inverse) {
+            return End.of(this.point.invert(inverse), Dir_1.Dir.invert(this.dir, inverse), this.pole);
+        }
+        else {
+            return this;
+        }
     }
 }
 exports.End = End;

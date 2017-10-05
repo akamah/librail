@@ -11,5 +11,5 @@ export declare class Rot {
     sub(that: Rot): Rot;
     neg(): Rot;
     mul(that: Rot): Rot;
-    equal(that: Rot): boolean;
+    invert(inverse?: boolean): Rot;
 }

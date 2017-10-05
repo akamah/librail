@@ -11,4 +11,5 @@ export declare class Point {
     neg(): Point;
     transformBy(global: Point): Point;
     rotateBy(dir: Dir): Point;
+    invert(inverse?: boolean): Point;
 }

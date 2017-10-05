@@ -32,11 +32,13 @@ class Rot {
     mul(that) {
         return new Rot(this.a * that.a - this.b * that.d - this.c * that.c - this.d * that.b, this.a * that.b + this.b * that.a - this.c * that.d - this.d * that.c, this.a * that.c + this.b * that.b + this.c * that.a - this.d * that.d, this.a * that.d + this.b * that.c + this.c * that.b + this.d * that.a);
     }
-    equal(that) {
-        return this.a === that.a &&
-            this.b === that.b &&
-            this.c === that.c &&
-            this.d === that.d;
+    invert(inverse = true) {
+        if (inverse) {
+            return Rot.of(this.a, -this.d, -this.c, -this.b);
+        }
+        else {
+            return this;
+        }
     }
 }
 exports.Rot = Rot;

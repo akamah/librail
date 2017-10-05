@@ -3,14 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Rot_1 = require("./Rot");
 var Dir;
 (function (Dir) {
-    Dir[Dir["North"] = 0] = "North";
-    Dir[Dir["NorthWest"] = 1] = "NorthWest";
-    Dir[Dir["West"] = 2] = "West";
-    Dir[Dir["SouthWest"] = 3] = "SouthWest";
-    Dir[Dir["South"] = 4] = "South";
-    Dir[Dir["SouthEast"] = 5] = "SouthEast";
-    Dir[Dir["East"] = 6] = "East";
-    Dir[Dir["NorthEast"] = 7] = "NorthEast";
+    Dir[Dir["East"] = 0] = "East";
+    Dir[Dir["NorthEast"] = 1] = "NorthEast";
+    Dir[Dir["North"] = 2] = "North";
+    Dir[Dir["NorthWest"] = 3] = "NorthWest";
+    Dir[Dir["West"] = 4] = "West";
+    Dir[Dir["SouthWest"] = 5] = "SouthWest";
+    Dir[Dir["South"] = 6] = "South";
+    Dir[Dir["SouthEast"] = 7] = "SouthEast";
 })(Dir = exports.Dir || (exports.Dir = {}));
 (function (Dir) {
     function match(a, b) {
@@ -33,6 +33,15 @@ var Dir;
         return rotate(target, by);
     }
     Dir.translateBy = translateBy;
+    function invert(target, inverse = true) {
+        if (inverse) {
+            return Dir.neg(target);
+        }
+        else {
+            return target;
+        }
+    }
+    Dir.invert = invert;
     function toRot(target) {
         const tab = [
             new Rot_1.Rot(1, 0, 0, 0),
