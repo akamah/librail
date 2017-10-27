@@ -13,6 +13,11 @@ import { Dir } from './Dir'
 // * 端点から端点に移動する時のベクトル関数、導関数
 // * 
 
+/* 問題：
+* レールの種類ごとに一意性を判定する部分が微妙に異なる
+* 端点に名前をつけるべきか？
+
+*/
 // レールはどんどん継承して作っていくことにした
 export abstract class Rail {
     constructor() {
@@ -36,6 +41,7 @@ export class StraightRail extends Rail {
         ];
     }
 
+    // この部分はすべてのレールに共通なわけだ
     public ends(): End[] {
         return this.localEnds().map(e =>
             e.invert(this.inverse).transformBy(this.origin)
