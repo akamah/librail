@@ -36,13 +36,8 @@ class Dir {
     translateBy(by) {
         return this.add(by);
     }
-    invert(inverse = true) {
-        if (inverse) {
-            return this.neg();
-        }
-        else {
-            return this;
-        }
+    flipVert() {
+        return this.neg();
     }
     toRot() {
         const tab = [

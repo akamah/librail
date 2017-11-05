@@ -38,13 +38,9 @@ export class End {
     }
 
     // flip horizontally
-    public invert(inverse = true): End {
-        if (inverse) {
-            return End.of(this.point.invert(inverse),
-                          this.dir.invert(inverse),
-                          this.pole)
-        } else {
-            return this
-        }
+    public flipVert(): End {
+        return End.of(this.point.flipVert(),
+                      this.dir.flipVert(),
+                      this.pole);
     }
 }

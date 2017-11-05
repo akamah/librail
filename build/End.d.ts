@@ -11,5 +11,5 @@ export declare class End {
     static minus(point: Point, dir: Dir): End;
     match(other: End): boolean;
     transformBy(global: End): End;
-    invert(inverse?: boolean): End;
+    flipVert(): End;
 }

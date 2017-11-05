@@ -27,13 +27,8 @@ class End {
         return End.of(transformed, this.dir.translateBy(global.dir), this.pole.translateBy(global.pole));
     }
     // flip horizontally
-    invert(inverse = true) {
-        if (inverse) {
-            return End.of(this.point.invert(inverse), this.dir.invert(inverse), this.pole);
-        }
-        else {
-            return this;
-        }
+    flipVert() {
+        return End.of(this.point.flipVert(), this.dir.flipVert(), this.pole);
     }
 }
 exports.End = End;

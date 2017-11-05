@@ -51,12 +51,8 @@ export class Dir {
         return this.add(by);
     }
 
-    public invert(inverse = true): Dir {
-        if (inverse) {
-            return this.neg();
-        } else {
-            return this;
-        }
+    public flipVert(): Dir {
+        return this.neg();
     }
 
     public toRot(): Rot {

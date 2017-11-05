@@ -27,9 +27,9 @@ describe("Rot", () => {
         assert.deepEqual(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 0, 1)), Rot.of(-2, -3, -4, 1));
     });
 
-    it('invert', () => {
-        assert.deepEqual(Rot.of(1, 0, 0, 0).invert(), Rot.of(1, 0, 0, 0));
-        assert.deepEqual(Rot.of(0, 1, 0, 0).invert(), Rot.of(0, 0, 0, -1));
-        assert.deepEqual(Rot.of(0, 0, 1, 0).invert(), Rot.of(0, 0, -1, 0));
+    it('flipVert', () => {
+        assert.deepEqual(Rot.of(1, 0, 0, 0).flipVert(), Rot.of(1, 0, 0, 0));
+        assert.deepEqual(Rot.of(0, 1, 0, 0).flipVert(), Rot.of(0, 0, 0, -1));
+        assert.deepEqual(Rot.of(0, 0, 1, 0).flipVert(), Rot.of(0, 0, -1, 0));
     });
 });

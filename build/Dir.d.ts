@@ -19,6 +19,6 @@ export declare class Dir {
     neg(): Dir;
     add(by: Dir): Dir;
     translateBy(by: Dir): Dir;
-    invert(inverse?: boolean): Dir;
+    flipVert(): Dir;
     toRot(): Rot;
 }

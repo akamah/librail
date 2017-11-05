@@ -47,11 +47,7 @@ export class Rot {
         );
     }
 
-    public invert(inverse = true): Rot {
-        if (inverse) {
-            return Rot.of(this.a, -this.d, -this.c, -this.b)
-        } else {
-            return this;
-        }
+    public flipVert(): Rot {
+        return Rot.of(this.a, -this.d, -this.c, -this.b)
     }
 }

@@ -42,7 +42,14 @@ class StraightRail extends Rail {
     }
     // この部分はすべてのレールに共通なわけだ
     ends() {
-        return this.localEnds().map(e => e.invert(this.inverse).transformBy(this.origin));
+        return this.localEnds().map(e => {
+            if (this.inverse) {
+                return e.flipVert().transformBy(this.origin);
+            }
+            else {
+                return e.transformBy(this.origin);
+            }
+        });
     }
 }
 StraightRail.STRAIGHT = End_1.End.plus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.East);

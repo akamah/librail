@@ -53,8 +53,12 @@ export class StraightRail extends Rail {
 
     // この部分はすべてのレールに共通なわけだ
     public ends(): End[] {
-        return this.localEnds().map(e =>
-            e.invert(this.inverse).transformBy(this.origin)
-        );
+        return this.localEnds().map(e => {
+            if (this.inverse) {
+                return e.flipVert().transformBy(this.origin);
+            } else {
+                return e.transformBy(this.origin);
+            }
+        });
     }
 }

@@ -16,5 +16,5 @@ export declare class Rot {
     sub(that: Rot): Rot;
     neg(): Rot;
     mul(that: Rot): Rot;
-    invert(inverse?: boolean): Rot;
+    flipVert(): Rot;
 }

@@ -7,8 +7,8 @@ import { Pole } from '../src/Pole';
 
 
 describe("End", () => {
-    it('invert', () => {
-        const actual = End.of(Point.of(Rot.of(1, 2, 3, 4), Rot.zero(), 5), Dir.NorthEast, Pole.Minus).invert();
+    it('flipVert', () => {
+        const actual = End.of(Point.of(Rot.of(1, 2, 3, 4), Rot.zero(), 5), Dir.NorthEast, Pole.Minus).flipVert();
         const expect = End.of(Point.of(Rot.of(1, -4, -3, -2), Rot.zero(), -5), Dir.SouthEast, Pole.Minus);
         assert.deepEqual(actual, expect);
     });

@@ -5,8 +5,7 @@ import { Dir } from './Dir';
 
 export class Point {
     // single: 単線, double: 複線
-    public constructor(public single: Rot, public double: Rot, public up = 0) {
-    }
+    public constructor(public single: Rot, public double: Rot, public up = 0) {}
 
     public static zero() {
         return new Point(Rot.zero(), Rot.zero(), 0);
@@ -46,7 +45,7 @@ export class Point {
             this.single.neg(),
             this.double.neg(),
             -this.up
-        )
+        );
     }
 
     public transformBy(global: Point): Point {
@@ -58,17 +57,13 @@ export class Point {
             this.single.mul(dir.toRot()),
             this.double.mul(dir.toRot()),
             this.up
-        )
+        );
     }
 
-    public invert(inverse = true): Point {
-        if (inverse) {
-            return Point.of(
-                this.single.invert(inverse),
-                this.double.invert(inverse),
-                -this.up)
-        } else {
-            return this
-        }
+    public flipVert(): Point {
+        return Point.of(
+                this.single.flipVert(),
+                this.double.flipVert(),
+                -this.up);
     }
 }
