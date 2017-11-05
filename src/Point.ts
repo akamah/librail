@@ -5,7 +5,7 @@ import { Dir } from './Dir';
 
 export class Point {
     // single: 単線, double: 複線
-    constructor(public single: Rot, public double: Rot, public up = 0) {
+    public constructor(public single: Rot, public double: Rot, public up = 0) {
     }
 
     public static zero() {

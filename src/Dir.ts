@@ -17,17 +17,17 @@ enum DirEnum {
  * そのため，negで逆をとったら南北が反転するものとする．
  */
 export class Dir {
-    static readonly East = new Dir(DirEnum.East);
-    static readonly NorthEast = new Dir(DirEnum.NorthEast);
-    static readonly North = new Dir(DirEnum.North);
-    static readonly NorthWest = new Dir(DirEnum.NorthWest);
-    static readonly West = new Dir(DirEnum.West);
-    static readonly SouthWest = new Dir(DirEnum.SouthWest);
-    static readonly South = new Dir(DirEnum.South);
-    static readonly SouthEast = new Dir(DirEnum.SouthEast);
+    public static readonly East = new Dir(DirEnum.East);
+    public static readonly NorthEast = new Dir(DirEnum.NorthEast);
+    public static readonly North = new Dir(DirEnum.North);
+    public static readonly NorthWest = new Dir(DirEnum.NorthWest);
+    public static readonly West = new Dir(DirEnum.West);
+    public static readonly SouthWest = new Dir(DirEnum.SouthWest);
+    public static readonly South = new Dir(DirEnum.South);
+    public static readonly SouthEast = new Dir(DirEnum.SouthEast);
     
 
-    constructor(public readonly dir: number) {
+    public constructor(public readonly dir: number) {
         this.dir = dir % 8;
     }
 

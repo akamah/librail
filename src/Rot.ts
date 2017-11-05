@@ -4,7 +4,7 @@
  * the values have no unit.
  */
 export class Rot {
-    constructor(
+    public constructor(
         public readonly a: number,
         public readonly b = 0, 
         public readonly c = 0,
