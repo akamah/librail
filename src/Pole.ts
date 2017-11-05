@@ -16,7 +16,7 @@ export class Pole implements Apply<Pole, Pole> {
         this.pole = pole % 2;
     }
     public match(a: Pole): boolean {
-        return this.pole === a.pole;
+        return this.pole !== a.pole;
     }
 
     public apply(target: Pole): Pole {
@@ -25,5 +25,13 @@ export class Pole implements Apply<Pole, Pole> {
 
     public invert(): Pole {
         return this;
+    }
+
+    public isPlus(): boolean {
+        return this.pole === PoleEnum.Plus;
+    }
+    
+    public isMinus(): boolean {
+        return this.pole === PoleEnum.Minus;
     }
 }

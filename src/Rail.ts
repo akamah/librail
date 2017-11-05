@@ -20,9 +20,10 @@ import { Dir } from './Dir'
 */
 // レールはどんどん継承して作っていくことにした
 
-/* レールのローカルから見た端点の方向は，外側に向かう方向とする．
+/* レールのローカルから見た端点の方向は，内側に向かう方向とする．
  * 例えば，原点から東においた直線レールの場合，
- * 原点の方の端の方向は西で，a = 1の部分の方向は東となる．
+ * 原点の方の端の方向は東で，a = 1の部分の方向は西となる．
+ * こうすることで，原点でのローカルとグローバルのギャップがなくなり，座標変換が素直に対応する．
  * 
 
  */
@@ -35,29 +36,32 @@ export abstract class Rail {
 }
 
 export class StraightRail extends Rail {
-    static readonly STRAIGHT = End.plus(Point.of(Rot.of(4)), Dir.East);
+    static readonly Origin   = End.plus(Point.zero(), Dir.East);
+    static readonly Straight = End.minus(Point.of(Rot.of(4)), Dir.West);
     
     constructor(
         public readonly origin: End,
-        public readonly inverse: boolean
+        public readonly inverse: boolean // これは一般の場合で，直線の場合は無効となる
     ) {
         super();
+
+        if (origin.pole.isMinus()) {
+            const newOrigin = origin.apply(StraightRail.Straight);
+            this.origin = newOrigin;
+        } 
     }
 
     protected localEnds(): End[] {
-        return [
-            End.minus(Point.zero(), Dir.West),
-            End.plus(Point.of(Rot.of(4)), Dir.East)
-        ];
+        return [StraightRail.Origin, StraightRail.Straight];
     }
 
     // この部分はすべてのレールに共通なわけだ
     public ends(): End[] {
         return this.localEnds().map(e => {
             if (this.inverse) {
-                return e.flipVert().apply(this.origin);
+                return this.origin.apply(e.flipVert());
             } else {
-                return e.apply(this.origin);
+                return this.origin.apply(e);
             }
         });
     }

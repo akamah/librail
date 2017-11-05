@@ -1,6 +1,5 @@
 import { Apply } from './Apply';
 import { Rot } from './Rot';
-import { Dir } from './Dir';
 
 
 export class Point implements Apply<Point, Point> {
@@ -54,14 +53,6 @@ export class Point implements Apply<Point, Point> {
 
     public invert(): Point {
         return this.neg();
-    }
-
-    public rotate(dir: Dir): Point {
-        return new Point(
-            this.single.mul(dir.toRot()),
-            this.double.mul(dir.toRot()),
-            this.up
-        );
     }
 
     /**
