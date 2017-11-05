@@ -6,6 +6,7 @@ export declare abstract class Rail {
 export declare class StraightRail extends Rail {
     readonly origin: End;
     readonly inverse: boolean;
+    static readonly STRAIGHT: End;
     constructor(origin: End, inverse: boolean);
     protected localEnds(): End[];
     ends(): End[];

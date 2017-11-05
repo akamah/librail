@@ -1,3 +1,8 @@
+/**
+ * Expresses a point in the `Rot45' coordinate system.
+ * Rot45 has four basis vectors (➡️, ↗️, ⬆️, ↖️), and its coeffcients are integers.
+ * the values have no unit.
+ */
 export declare class Rot {
     readonly a: number;
     readonly b: number;

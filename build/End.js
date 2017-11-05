@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Dir_1 = require("./Dir");
 const Pole_1 = require("./Pole");
 class End {
     constructor(point, dir, pole) {
@@ -19,18 +18,18 @@ class End {
     }
     match(other) {
         return this.point == other.point &&
-            Dir_1.Dir.match(this.dir, other.dir) &&
-            Pole_1.Pole.match(this.pole, other.pole);
+            this.dir.match(other.dir) &&
+            this.pole.match(other.pole);
     }
     transformBy(global) {
         const rotated = this.point.rotateBy(global.dir);
         const transformed = rotated.transformBy(global.point);
-        return End.of(transformed, Dir_1.Dir.translateBy(this.dir, global.dir), Pole_1.Pole.translateBy(this.pole, global.pole));
+        return End.of(transformed, this.dir.translateBy(global.dir), this.pole.translateBy(global.pole));
     }
     // flip horizontally
     invert(inverse = true) {
         if (inverse) {
-            return End.of(this.point.invert(inverse), Dir_1.Dir.invert(this.dir, inverse), this.pole);
+            return End.of(this.point.invert(inverse), this.dir.invert(inverse), this.pole);
         }
         else {
             return this;

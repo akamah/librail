@@ -11,7 +11,18 @@ const Dir_1 = require("./Dir");
 // * 端点から端点に移動した時の状態遷移関数
 // * 端点から端点に移動する時のベクトル関数、導関数
 // * 
+/* 問題：
+* レールの種類ごとに一意性を判定する部分が微妙に異なる
+* 端点に名前をつけるべきか？
+
+*/
 // レールはどんどん継承して作っていくことにした
+/* レールのローカルから見た端点の方向は，外側に向かう方向とする．
+ * 例えば，原点から東においた直線レールの場合，
+ * 原点の方の端の方向は西で，a = 1の部分の方向は東となる．
+ *
+
+ */
 class Rail {
     constructor() {
     }
@@ -29,8 +40,10 @@ class StraightRail extends Rail {
             End_1.End.plus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.East)
         ];
     }
+    // この部分はすべてのレールに共通なわけだ
     ends() {
         return this.localEnds().map(e => e.invert(this.inverse).transformBy(this.origin));
     }
 }
+StraightRail.STRAIGHT = End_1.End.plus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.East);
 exports.StraightRail = StraightRail;

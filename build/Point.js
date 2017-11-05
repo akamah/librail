@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // import { Vector3 } from 'three';
 const Rot_1 = require("./Rot");
-const Dir_1 = require("./Dir");
 class Point {
     // single: 単線, double: 複線
     constructor(single, double, up = 0) {
@@ -44,7 +43,7 @@ class Point {
         return this.add(global);
     }
     rotateBy(dir) {
-        return new Point(this.single.mul(Dir_1.Dir.toRot(dir)), this.double.mul(Dir_1.Dir.toRot(dir)), this.up);
+        return new Point(this.single.mul(dir.toRot()), this.double.mul(dir.toRot()), this.up);
     }
     invert(inverse = true) {
         if (inverse) {

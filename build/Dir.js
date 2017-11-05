@@ -1,48 +1,50 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Rot_1 = require("./Rot");
-var Dir;
-(function (Dir) {
-    Dir[Dir["East"] = 0] = "East";
-    Dir[Dir["NorthEast"] = 1] = "NorthEast";
-    Dir[Dir["North"] = 2] = "North";
-    Dir[Dir["NorthWest"] = 3] = "NorthWest";
-    Dir[Dir["West"] = 4] = "West";
-    Dir[Dir["SouthWest"] = 5] = "SouthWest";
-    Dir[Dir["South"] = 6] = "South";
-    Dir[Dir["SouthEast"] = 7] = "SouthEast";
-})(Dir = exports.Dir || (exports.Dir = {}));
-(function (Dir) {
-    function match(a, b) {
-        return opposite(a) == b;
+var DirEnum;
+(function (DirEnum) {
+    DirEnum[DirEnum["East"] = 0] = "East";
+    DirEnum[DirEnum["NorthEast"] = 1] = "NorthEast";
+    DirEnum[DirEnum["North"] = 2] = "North";
+    DirEnum[DirEnum["NorthWest"] = 3] = "NorthWest";
+    DirEnum[DirEnum["West"] = 4] = "West";
+    DirEnum[DirEnum["SouthWest"] = 5] = "SouthWest";
+    DirEnum[DirEnum["South"] = 6] = "South";
+    DirEnum[DirEnum["SouthEast"] = 7] = "SouthEast";
+})(DirEnum || (DirEnum = {}));
+/**
+ * Dirの正面方向，つまり角度としての0度の方向は東側とする．
+ * そのため，negで逆をとったら南北が反転するものとする．
+ */
+class Dir {
+    constructor(dir) {
+        this.dir = dir;
+        this.dir = dir % 8;
     }
-    Dir.match = match;
-    function opposite(a) {
-        return (a + 4) % 8;
+    match(a) {
+        return this.opposite().dir === a.dir; // FIXME: equality?
     }
-    Dir.opposite = opposite;
-    function neg(a) {
-        return (8 - a) % 8;
+    opposite() {
+        return new Dir((this.dir + 4) % 8);
     }
-    Dir.neg = neg;
-    function rotate(target, by) {
-        return (target + by) % 8;
+    neg() {
+        return new Dir((8 - this.dir) % 8);
     }
-    Dir.rotate = rotate;
-    function translateBy(target, by) {
-        return rotate(target, by);
+    add(by) {
+        return new Dir((this.dir + by.dir) % 8);
     }
-    Dir.translateBy = translateBy;
-    function invert(target, inverse = true) {
+    translateBy(by) {
+        return this.add(by);
+    }
+    invert(inverse = true) {
         if (inverse) {
-            return Dir.neg(target);
+            return this.neg();
         }
         else {
-            return target;
+            return this;
         }
     }
-    Dir.invert = invert;
-    function toRot(target) {
+    toRot() {
         const tab = [
             new Rot_1.Rot(1, 0, 0, 0),
             new Rot_1.Rot(0, 1, 0, 0),
@@ -53,7 +55,15 @@ var Dir;
             new Rot_1.Rot(0, 0, -1, 0),
             new Rot_1.Rot(0, 0, 0, -1)
         ];
-        return tab[target % 8];
+        return tab[this.dir % 8];
     }
-    Dir.toRot = toRot;
-})(Dir = exports.Dir || (exports.Dir = {}));
+}
+Dir.East = new Dir(DirEnum.East);
+Dir.NorthEast = new Dir(DirEnum.NorthEast);
+Dir.North = new Dir(DirEnum.North);
+Dir.NorthWest = new Dir(DirEnum.NorthWest);
+Dir.West = new Dir(DirEnum.West);
+Dir.SouthWest = new Dir(DirEnum.SouthWest);
+Dir.South = new Dir(DirEnum.South);
+Dir.SouthEast = new Dir(DirEnum.SouthEast);
+exports.Dir = Dir;

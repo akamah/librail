@@ -1,20 +1,24 @@
 import { Rot } from './Rot';
-export declare enum Dir {
-    East = 0,
-    NorthEast = 1,
-    North = 2,
-    NorthWest = 3,
-    West = 4,
-    SouthWest = 5,
-    South = 6,
-    SouthEast = 7,
-}
-export declare namespace Dir {
-    function match(a: Dir, b: Dir): boolean;
-    function opposite(a: Dir): Dir;
-    function neg(a: Dir): Dir;
-    function rotate(target: Dir, by: Dir): Dir;
-    function translateBy(target: Dir, by: Dir): Dir;
-    function invert(target: Dir, inverse?: boolean): Dir;
-    function toRot(target: Dir): Rot;
+/**
+ * Dirの正面方向，つまり角度としての0度の方向は東側とする．
+ * そのため，negで逆をとったら南北が反転するものとする．
+ */
+export declare class Dir {
+    readonly dir: number;
+    static readonly East: Dir;
+    static readonly NorthEast: Dir;
+    static readonly North: Dir;
+    static readonly NorthWest: Dir;
+    static readonly West: Dir;
+    static readonly SouthWest: Dir;
+    static readonly South: Dir;
+    static readonly SouthEast: Dir;
+    constructor(dir: number);
+    match(a: Dir): boolean;
+    opposite(): Dir;
+    neg(): Dir;
+    add(by: Dir): Dir;
+    translateBy(by: Dir): Dir;
+    invert(inverse?: boolean): Dir;
+    toRot(): Rot;
 }

@@ -10,3 +10,5 @@ const Pole_1 = require("./Pole");
 exports.Pole = Pole_1.Pole;
 const Rot_1 = require("./Rot");
 exports.Rot = Rot_1.Rot;
+const Rail_1 = require("./Rail");
+exports.Rail = Rail_1.Rail;

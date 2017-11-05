@@ -1,17 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Pole;
-(function (Pole) {
-    Pole[Pole["Plus"] = 0] = "Plus";
-    Pole[Pole["Minus"] = 1] = "Minus";
-})(Pole = exports.Pole || (exports.Pole = {}));
-(function (Pole) {
-    function match(a, b) {
-        return a != b;
+/**
+ * Pole
+ */
+var PoleEnum;
+(function (PoleEnum) {
+    PoleEnum[PoleEnum["Plus"] = 0] = "Plus";
+    PoleEnum[PoleEnum["Minus"] = 1] = "Minus";
+})(PoleEnum || (PoleEnum = {}));
+class Pole {
+    constructor(pole) {
+        this.pole = pole;
+        this.pole = pole % 2;
     }
-    Pole.match = match;
-    function translateBy(target, by) {
-        return (target + by) % 2;
+    match(a) {
+        return this.pole === a.pole;
     }
-    Pole.translateBy = translateBy;
-})(Pole = exports.Pole || (exports.Pole = {}));
+    translateBy(by) {
+        return new Pole((this.pole + by.pole) % 2);
+    }
+}
+Pole.Plus = new Pole(PoleEnum.Plus);
+Pole.Minus = new Pole(PoleEnum.Minus);
+exports.Pole = Pole;

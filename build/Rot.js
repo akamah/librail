@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// expresses a point which can be a point of the coordinate system.
-// we call this Rot45 coordinate.
-// the values have no unit.
+/**
+ * Expresses a point in the `Rot45' coordinate system.
+ * Rot45 has four basis vectors (➡️, ↗️, ⬆️, ↖️), and its coeffcients are integers.
+ * the values have no unit.
+ */
 class Rot {
     constructor(a, b = 0, c = 0, d = 0) {
         this.a = a;
