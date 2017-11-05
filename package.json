@@ -5,6 +5,7 @@
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "pretest": "tsc",
     "test": "mocha --compilers ts:espower-typescript/guess test/*.test.ts"
   },
   "repository": {
