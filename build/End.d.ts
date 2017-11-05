@@ -1,6 +1,10 @@
 import { Point } from './Point';
 import { Dir } from './Dir';
 import { Pole } from './Pole';
+/**
+ * レールの端点を表す．
+ * 変換としては，回転を行ったのち平行移動を行う．
+ */
 export declare class End {
     readonly point: Point;
     readonly dir: Dir;
@@ -10,6 +14,10 @@ export declare class End {
     static plus(point: Point, dir: Dir): End;
     static minus(point: Point, dir: Dir): End;
     match(other: End): boolean;
-    transformBy(global: End): End;
+    /**
+     * thisが意味する座標変換を行う．つまり，ローカルからグローバル
+     * @param target ローカル座標
+     */
+    apply(local: End): End;
     flipVert(): End;
 }

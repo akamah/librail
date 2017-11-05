@@ -1,9 +1,9 @@
-// import { Vector3 } from 'three';
+import { Apply } from './Apply';
 import { Rot } from './Rot';
 import { Dir } from './Dir';
 
 
-export class Point {
+export class Point implements Apply<Point, Point> {
     // single: 単線, double: 複線
     public constructor(public single: Rot, public double: Rot, public up = 0) {}
 
@@ -48,11 +48,15 @@ export class Point {
         );
     }
 
-    public transformBy(global: Point): Point {
-        return this.add(global);
+    public apply(target: Point): Point {
+        return this.add(target);
     }
 
-    public rotateBy(dir: Dir): Point {
+    public invert(): Point {
+        return this.neg();
+    }
+
+    public rotate(dir: Dir): Point {
         return new Point(
             this.single.mul(dir.toRot()),
             this.double.mul(dir.toRot()),

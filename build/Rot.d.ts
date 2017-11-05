@@ -1,9 +1,10 @@
+import { Apply } from './Apply';
 /**
  * Expresses a point in the `Rot45' coordinate system.
  * Rot45 has four basis vectors (➡️, ↗️, ⬆️, ↖️), and its coeffcients are integers.
  * the values have no unit.
  */
-export declare class Rot {
+export declare class Rot implements Apply<Rot, Rot> {
     readonly a: number;
     readonly b: number;
     readonly c: number;
@@ -16,5 +17,7 @@ export declare class Rot {
     sub(that: Rot): Rot;
     neg(): Rot;
     mul(that: Rot): Rot;
+    apply(target: Rot): Rot;
+    invert(): Rot;
     flipVert(): Rot;
 }

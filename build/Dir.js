@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Rot_1 = require("./Rot");
+const Point_1 = require("./Point");
 var DirEnum;
 (function (DirEnum) {
     DirEnum[DirEnum["East"] = 0] = "East";
@@ -21,36 +22,43 @@ class Dir {
         this.dir = dir;
         this.dir = dir % 8;
     }
-    match(a) {
-        return this.opposite().dir === a.dir; // FIXME: equality?
-    }
     opposite() {
         return new Dir((this.dir + 4) % 8);
-    }
-    neg() {
-        return new Dir((8 - this.dir) % 8);
     }
     add(by) {
         return new Dir((this.dir + by.dir) % 8);
     }
-    translateBy(by) {
-        return this.add(by);
+    neg() {
+        return new Dir((8 - this.dir) % 8);
+    }
+    apply(target) {
+        if (target instanceof Dir) {
+            return this.add(target);
+        }
+        else if (target instanceof Point_1.Point) {
+            return this.rotatePoint(target);
+        }
+        else {
+            return this.rotateRot(target);
+        }
+    }
+    invert() {
+        return this.neg();
     }
     flipVert() {
         return this.neg();
     }
+    match(a) {
+        return this.opposite().dir === a.dir; // FIXME: equality?
+    }
     toRot() {
-        const tab = [
-            new Rot_1.Rot(1, 0, 0, 0),
-            new Rot_1.Rot(0, 1, 0, 0),
-            new Rot_1.Rot(0, 0, 1, 0),
-            new Rot_1.Rot(0, 0, 0, 1),
-            new Rot_1.Rot(-1, 0, 0, 0),
-            new Rot_1.Rot(0, -1, 0, 0),
-            new Rot_1.Rot(0, 0, -1, 0),
-            new Rot_1.Rot(0, 0, 0, -1)
-        ];
-        return tab[this.dir % 8];
+        return Dir.rotTable[this.dir % 8];
+    }
+    rotateRot(r) {
+        return this.toRot().mul(r);
+    }
+    rotatePoint(p) {
+        return new Point_1.Point(this.rotateRot(p.single), this.rotateRot(p.double), p.up);
     }
 }
 Dir.East = new Dir(DirEnum.East);
@@ -61,4 +69,14 @@ Dir.West = new Dir(DirEnum.West);
 Dir.SouthWest = new Dir(DirEnum.SouthWest);
 Dir.South = new Dir(DirEnum.South);
 Dir.SouthEast = new Dir(DirEnum.SouthEast);
+Dir.rotTable = [
+    new Rot_1.Rot(1, 0, 0, 0),
+    new Rot_1.Rot(0, 1, 0, 0),
+    new Rot_1.Rot(0, 0, 1, 0),
+    new Rot_1.Rot(0, 0, 0, 1),
+    new Rot_1.Rot(-1, 0, 0, 0),
+    new Rot_1.Rot(0, -1, 0, 0),
+    new Rot_1.Rot(0, 0, -1, 0),
+    new Rot_1.Rot(0, 0, 0, -1)
+];
 exports.Dir = Dir;

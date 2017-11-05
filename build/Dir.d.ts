@@ -1,9 +1,11 @@
 import { Rot } from './Rot';
+import { Point } from './Point';
+import { Apply } from './Apply';
 /**
  * Dirの正面方向，つまり角度としての0度の方向は東側とする．
  * そのため，negで逆をとったら南北が反転するものとする．
  */
-export declare class Dir {
+export declare class Dir implements Apply<Dir, (Dir | Rot | Point)> {
     readonly dir: number;
     static readonly East: Dir;
     static readonly NorthEast: Dir;
@@ -13,12 +15,18 @@ export declare class Dir {
     static readonly SouthWest: Dir;
     static readonly South: Dir;
     static readonly SouthEast: Dir;
+    private static readonly rotTable;
     constructor(dir: number);
-    match(a: Dir): boolean;
     opposite(): Dir;
-    neg(): Dir;
     add(by: Dir): Dir;
-    translateBy(by: Dir): Dir;
+    neg(): Dir;
+    apply(target: Dir): Dir;
+    apply(target: Rot): Rot;
+    apply(target: Point): Point;
+    invert(): Dir;
     flipVert(): Dir;
+    match(a: Dir): boolean;
     toRot(): Rot;
+    rotateRot(r: Rot): Rot;
+    rotatePoint(p: Point): Point;
 }

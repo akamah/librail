@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { Vector3 } from 'three';
 const Rot_1 = require("./Rot");
 class Point {
     // single: 単線, double: 複線
@@ -39,12 +38,19 @@ class Point {
     neg() {
         return new Point(this.single.neg(), this.double.neg(), -this.up);
     }
-    transformBy(global) {
-        return this.add(global);
+    apply(target) {
+        return this.add(target);
     }
-    rotateBy(dir) {
+    invert() {
+        return this.neg();
+    }
+    rotate(dir) {
         return new Point(this.single.mul(dir.toRot()), this.double.mul(dir.toRot()), this.up);
     }
+    /**
+     * flipVert rotates the point along X-axis by 180 degree.
+     * so `this.up` will be negated.
+     */
     flipVert() {
         return Point.of(this.single.flipVert(), this.double.flipVert(), -this.up);
     }

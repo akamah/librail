@@ -55,9 +55,9 @@ export class StraightRail extends Rail {
     public ends(): End[] {
         return this.localEnds().map(e => {
             if (this.inverse) {
-                return e.flipVert().transformBy(this.origin);
+                return e.flipVert().apply(this.origin);
             } else {
-                return e.transformBy(this.origin);
+                return e.apply(this.origin);
             }
         });
     }

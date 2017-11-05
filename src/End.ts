@@ -2,6 +2,10 @@ import { Point } from './Point';
 import { Dir } from './Dir';
 import { Pole } from './Pole';
 
+/**
+ * レールの端点を表す．
+ * 変換としては，回転を行ったのち平行移動を行う．
+ */
 export class End {
     public constructor(
         public readonly point: Point,
@@ -27,14 +31,15 @@ export class End {
             this.pole.match(other.pole);
     }
 
-    public transformBy(global: End): End {
-        const rotated = this.point.rotateBy(global.dir);
-        const transformed = rotated.transformBy(global.point);
-
+    /**
+     * thisが意味する座標変換を行う．つまり，ローカルからグローバル
+     * @param target ローカル座標
+     */
+    public apply(local: End): End {
         return End.of(
-            transformed,
-            this.dir.translateBy(global.dir),
-            this.pole.translateBy(global.pole));
+            this.point.apply(this.dir.apply(local.point)),
+            this.dir.apply(local.dir),
+            this.pole.apply(local.pole));
     }
 
     // flip horizontally

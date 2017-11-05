@@ -18,7 +18,7 @@ describe("End", () => {
         const global = End.of(Point.of(Rot.of(0, 0, 1, 0), Rot.zero(), 2), Dir.North, Pole.Plus);
         const expect = End.of(Point.of(Rot.of(-1,0, 2, 0), Rot.zero(), 3), Dir.West, Pole.Minus);
 
-        assert.deepEqual(local.transformBy(global), expect);
+        assert.deepEqual(global.apply(local), expect);
         
     });
 });

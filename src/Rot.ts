@@ -1,9 +1,12 @@
+import { Apply } from './Apply'
+
+
 /**
  * Expresses a point in the `Rot45' coordinate system.
  * Rot45 has four basis vectors (➡️, ↗️, ⬆️, ↖️), and its coeffcients are integers.
  * the values have no unit.
  */
-export class Rot {
+export class Rot implements Apply<Rot, Rot> {
     public constructor(
         public readonly a: number,
         public readonly b = 0, 
@@ -45,6 +48,14 @@ export class Rot {
             this.a*that.c + this.b*that.b + this.c*that.a - this.d*that.d,
             this.a*that.d + this.b*that.c + this.c*that.b + this.d*that.a,
         );
+    }
+
+    public apply(target: Rot): Rot {
+        return this.add(target);
+    }
+
+    public invert(): Rot {
+        return this.neg();
     }
 
     public flipVert(): Rot {

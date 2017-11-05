@@ -1,5 +1,6 @@
 import { Rot } from './Rot';
-
+import { Point } from './Point'
+import { Apply } from './Apply';
 
 enum DirEnum {
     East = 0,
@@ -16,7 +17,7 @@ enum DirEnum {
  * Dirの正面方向，つまり角度としての0度の方向は東側とする．
  * そのため，negで逆をとったら南北が反転するものとする．
  */
-export class Dir {
+export class Dir implements Apply<Dir, Dir | Rot | Point> {
     public static readonly East      = new Dir(DirEnum.East);
     public static readonly NorthEast = new Dir(DirEnum.NorthEast);
     public static readonly North     = new Dir(DirEnum.North);
@@ -41,31 +42,58 @@ export class Dir {
         this.dir = dir % 8;
     }
 
-    public match(a: Dir): boolean {
-        return this.opposite().dir === a.dir; // FIXME: equality?
-    }
-
     public opposite(): Dir {
         return new Dir((this.dir + 4) % 8);
-    }
-
-    public neg(): Dir {
-        return new Dir((8 - this.dir) % 8);
     }
 
     public add(by: Dir): Dir {
         return new Dir((this.dir + by.dir) % 8);
     }
 
-    public translateBy(by: Dir): Dir {
-        return this.add(by);
+    public neg(): Dir {
+        return new Dir((8 - this.dir) % 8);
+    }
+
+    // 本気か？？？
+    public apply(target: Dir): Dir;        
+    public apply(target: Rot): Rot;        
+    public apply(target: Point): Point;        
+    public apply(target: Dir | Point | Rot): Dir | Point | Rot {
+        if (target instanceof Dir) {
+           return this.add(target);
+        } else if (target instanceof Point) {
+            return this.rotatePoint(target);
+        } else {
+            return this.rotateRot(target);
+        }
+    }
+
+    public invert(): Dir {
+        return this.neg();
     }
 
     public flipVert(): Dir {
         return this.neg();
     }
 
+    public match(a: Dir): boolean {
+        return this.opposite().dir === a.dir; // FIXME: equality?
+    }
+
     public toRot(): Rot {
         return Dir.rotTable[this.dir % 8];
     }
+
+    public rotateRot(r: Rot): Rot {
+        return this.toRot().mul(r)
+    }
+
+    public rotatePoint(p: Point): Point {
+        return new Point(
+            this.rotateRot(p.single),
+            this.rotateRot(p.double),
+            p.up
+        );
+    }
+
 }

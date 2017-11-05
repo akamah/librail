@@ -1,12 +1,14 @@
-/**
- * Pole
- */
+import { Apply } from './Apply'
+
 enum PoleEnum {
     Plus = 0,
     Minus
 }
 
-export class Pole {
+/**
+ * Pole
+ */
+export class Pole implements Apply<Pole, Pole> {
     public static readonly Plus  = new Pole(PoleEnum.Plus);
     public static readonly Minus = new Pole(PoleEnum.Minus);
 
@@ -17,7 +19,11 @@ export class Pole {
         return this.pole === a.pole;
     }
 
-    public translateBy(by: Pole): Pole {
-        return new Pole((this.pole + by.pole) % 2);
+    public apply(target: Pole): Pole {
+        return new Pole((this.pole + target.pole) % 2);
+    }
+
+    public invert(): Pole {
+        return this;
     }
 }
