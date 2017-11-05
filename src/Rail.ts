@@ -19,6 +19,14 @@ import { Dir } from './Dir'
 
 */
 // レールはどんどん継承して作っていくことにした
+
+/* レールのローカルから見た端点の方向は，外側に向かう方向とする．
+ * 例えば，原点から東においた直線レールの場合，
+ * 原点の方の端の方向は西で，a = 1の部分の方向は東となる．
+ * 
+
+ */
+
 export abstract class Rail {
     constructor() {
     }
@@ -27,6 +35,8 @@ export abstract class Rail {
 }
 
 export class StraightRail extends Rail {
+    static readonly STRAIGHT = End.plus(Point.of(Rot.of(4)), Dir.East);
+    
     constructor(
         public readonly origin: End,
         public readonly inverse: boolean

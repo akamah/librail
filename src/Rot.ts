@@ -1,9 +1,14 @@
-// expresses a point which can be a point of the coordinate system.
-// we call this Rot45 coordinate.
-// the values have no unit.
+/**
+ * Expresses a point in the `Rot45' coordinate system.
+ * Rot45 has four basis vectors (➡️, ↗️, ⬆️, ↖️), and its coeffcients are integers.
+ * the values have no unit.
+ */
 export class Rot {
-    constructor(public readonly a: number, public readonly b = 0, 
-        public readonly c = 0, public readonly d = 0) {
+    constructor(
+        public readonly a: number,
+        public readonly b = 0, 
+        public readonly c = 0,
+        public readonly d = 0) {
     }
 
     public static zero(): Rot {

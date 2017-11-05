@@ -1,3 +1,6 @@
+/**
+ * Pole
+ */
 export enum Pole {
     Plus = 0,
     Minus

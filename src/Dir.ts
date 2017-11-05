@@ -12,6 +12,10 @@ export enum Dir {
     SouthEast
 }
 
+/**
+ * Dirの正面方向，つまり角度としての0度の方向は東側とする．
+ * そのため，negで逆をとったら南北が反転するものとする．
+ */
 export namespace Dir {
     export function match(a: Dir, b: Dir): boolean {
         return opposite(a) == b;
