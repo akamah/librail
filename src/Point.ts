@@ -60,6 +60,10 @@ export class Point {
         );
     }
 
+    /**
+     * flipVert rotates the point along X-axis by 180 degree.
+     * so `this.up` will be negated.
+     */
     public flipVert(): Point {
         return Point.of(
                 this.single.flipVert(),
