@@ -1,17 +1,23 @@
 /**
  * Pole
  */
-export enum Pole {
+enum PoleEnum {
     Plus = 0,
     Minus
 }
 
-export namespace Pole {
-    export function match(a: Pole, b: Pole): boolean {
-        return a != b;
+export class Pole {
+    static readonly Plus  = new Pole(PoleEnum.Plus);
+    static readonly Minus = new Pole(PoleEnum.Minus);
+
+    constructor(public readonly pole: number) {
+        this.pole = pole % 2;
+    }
+    match(a: Pole): boolean {
+        return this.pole === a.pole;
     }
 
-    export function translateBy(target: Pole, by: Pole): Pole {
-        return (target + by) % 2;
+    translateBy(by: Pole): Pole {
+        return new Pole((this.pole + by.pole) % 2);
     }
 }

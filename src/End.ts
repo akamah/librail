@@ -24,7 +24,7 @@ export class End {
     public match(other: End): boolean {
         return this.point == other.point &&
             this.dir.match(other.dir) &&
-            Pole.match(this.pole, other.pole);
+            this.pole.match(other.pole);
     }
 
     public transformBy(global: End): End {
@@ -34,7 +34,7 @@ export class End {
         return End.of(
             transformed,
             this.dir.translateBy(global.dir),
-            Pole.translateBy(this.pole, global.pole));
+            this.pole.translateBy(global.pole));
     }
 
     // flip horizontally
