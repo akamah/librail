@@ -17,15 +17,25 @@ enum DirEnum {
  * そのため，negで逆をとったら南北が反転するものとする．
  */
 export class Dir {
-    public static readonly East = new Dir(DirEnum.East);
+    public static readonly East      = new Dir(DirEnum.East);
     public static readonly NorthEast = new Dir(DirEnum.NorthEast);
-    public static readonly North = new Dir(DirEnum.North);
+    public static readonly North     = new Dir(DirEnum.North);
     public static readonly NorthWest = new Dir(DirEnum.NorthWest);
-    public static readonly West = new Dir(DirEnum.West);
+    public static readonly West      = new Dir(DirEnum.West);
     public static readonly SouthWest = new Dir(DirEnum.SouthWest);
-    public static readonly South = new Dir(DirEnum.South);
+    public static readonly South     = new Dir(DirEnum.South);
     public static readonly SouthEast = new Dir(DirEnum.SouthEast);
-    
+
+    private static readonly rotTable = [
+        new Rot(1, 0, 0, 0),
+        new Rot(0, 1, 0, 0),
+        new Rot(0, 0, 1, 0),
+        new Rot(0, 0, 0, 1),
+        new Rot(-1,0, 0, 0),
+        new Rot(0, -1,0, 0),
+        new Rot(0, 0, -1,0),
+        new Rot(0, 0, 0,-1)
+    ]
 
     public constructor(public readonly dir: number) {
         this.dir = dir % 8;
@@ -56,17 +66,6 @@ export class Dir {
     }
 
     public toRot(): Rot {
-        const tab = [
-            new Rot(1, 0, 0, 0),
-            new Rot(0, 1, 0, 0),
-            new Rot(0, 0, 1, 0),
-            new Rot(0, 0, 0, 1),
-            new Rot(-1,0, 0, 0),
-            new Rot(0, -1,0, 0),
-            new Rot(0, 0, -1,0),
-            new Rot(0, 0, 0,-1)
-        ]
-
-        return tab[this.dir % 8];
+        return Dir.rotTable[this.dir % 8];
     }
 }
