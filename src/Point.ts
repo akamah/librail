@@ -55,8 +55,8 @@ export class Point {
 
     public rotateBy(dir: Dir): Point {
         return new Point(
-            this.single.mul(Dir.toRot(dir)),
-            this.double.mul(Dir.toRot(dir)),
+            this.single.mul(dir.toRot()),
+            this.double.mul(dir.toRot()),
             this.up
         )
     }

@@ -5,7 +5,7 @@ import { Dir } from '../src/Dir';
 
 describe("Dir", () => {
     it('neg', () => {
-        assert.deepEqual(Dir.neg(Dir.SouthWest), Dir.NorthWest);
-        assert.deepEqual(Dir.neg(Dir.East), Dir.East);
+        assert.deepEqual(Dir.SouthWest.neg(), Dir.NorthWest);
+        assert.deepEqual(Dir.East.neg(), Dir.East);
     });
 });

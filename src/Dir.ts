@@ -1,7 +1,7 @@
 import { Rot } from './Rot';
 
 
-export enum Dir {
+enum DirEnum {
     East = 0,
     NorthEast,
     North,
@@ -16,36 +16,50 @@ export enum Dir {
  * Dirの正面方向，つまり角度としての0度の方向は東側とする．
  * そのため，negで逆をとったら南北が反転するものとする．
  */
-export namespace Dir {
-    export function match(a: Dir, b: Dir): boolean {
-        return opposite(a) == b;
+export class Dir {
+    static readonly East = new Dir(DirEnum.East);
+    static readonly NorthEast = new Dir(DirEnum.NorthEast);
+    static readonly North = new Dir(DirEnum.North);
+    static readonly NorthWest = new Dir(DirEnum.NorthWest);
+    static readonly West = new Dir(DirEnum.West);
+    static readonly SouthWest = new Dir(DirEnum.SouthWest);
+    static readonly South = new Dir(DirEnum.South);
+    static readonly SouthEast = new Dir(DirEnum.SouthEast);
+    
+
+    constructor(public readonly dir: number) {
+        this.dir = dir % 8;
     }
 
-    export function opposite(a: Dir): Dir {
-        return (a + 4) % 8;
+    public match(a: Dir): boolean {
+        return this.opposite().dir === a.dir; // FIXME: equality?
     }
 
-    export function neg(a: Dir): Dir {
-        return (8 - a) % 8;
+    public opposite(): Dir {
+        return new Dir((this.dir + 4) % 8);
     }
 
-    export function rotate(target: Dir, by: Dir): Dir {
-        return (target + by) % 8;
+    public neg(): Dir {
+        return new Dir((8 - this.dir) % 8);
     }
 
-    export function translateBy(target: Dir, by: Dir): Dir {
-        return rotate(target, by);
+    public add(by: Dir): Dir {
+        return new Dir((this.dir + by.dir) % 8);
     }
 
-    export function invert(target: Dir, inverse = true): Dir {
+    public translateBy(by: Dir): Dir {
+        return this.add(by);
+    }
+
+    public invert(inverse = true): Dir {
         if (inverse) {
-            return Dir.neg(target);
+            return this.neg();
         } else {
-            return target;
+            return this;
         }
     }
 
-    export function toRot(target: Dir): Rot {
+    public toRot(): Rot {
         const tab = [
             new Rot(1, 0, 0, 0),
             new Rot(0, 1, 0, 0),
@@ -57,6 +71,6 @@ export namespace Dir {
             new Rot(0, 0, 0,-1)
         ]
 
-        return tab[target % 8];
+        return tab[this.dir % 8];
     }
 }

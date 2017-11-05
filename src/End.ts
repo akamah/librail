@@ -23,7 +23,7 @@ export class End {
 
     public match(other: End): boolean {
         return this.point == other.point &&
-            Dir.match(this.dir, other.dir) &&
+            this.dir.match(other.dir) &&
             Pole.match(this.pole, other.pole);
     }
 
@@ -33,7 +33,7 @@ export class End {
 
         return End.of(
             transformed,
-            Dir.translateBy(this.dir, global.dir),
+            this.dir.translateBy(global.dir),
             Pole.translateBy(this.pole, global.pole));
     }
 
@@ -41,7 +41,7 @@ export class End {
     public invert(inverse = true): End {
         if (inverse) {
             return End.of(this.point.invert(inverse),
-                          Dir.invert(this.dir, inverse),
+                          this.dir.invert(inverse),
                           this.pole)
         } else {
             return this
