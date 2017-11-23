@@ -82,10 +82,6 @@ export class Dir implements Apply<Dir, Dir | Rot | Point>, Equal<Dir> {
         return this.neg();
     }
 
-    public match(a: Dir): boolean {
-        return this.opposite().dir === a.dir; // FIXME: equality?
-    }
-
     public toRot(): Rot {
         return Dir.rotTable[this.dir % 8];
     }

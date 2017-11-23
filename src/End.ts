@@ -27,10 +27,14 @@ export class End implements Equal<End> {
         return new this(point, dir, Pole.Minus);
     }
 
+    /**
+     * 2つのレールの端点として見たとき，カチっとはまるかどうか
+     * @param other もう片方の端点
+     */
     public match(other: End): boolean {
         return this.point.equal(other.point) &&
-            this.dir.match(other.dir) &&
-            this.pole.match(other.pole);
+            this.dir.equal(other.dir.opposite()) &&
+            this.pole.equal(other.pole.opposite());
     }
 
     /**

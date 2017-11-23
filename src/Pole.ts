@@ -18,10 +18,6 @@ export class Pole implements Apply<Pole, Pole>, Equal<Pole> {
         this.pole = pole % 2;
     }
 
-    public match(a: Pole): boolean {
-        return this.pole !== a.pole;
-    }
-
     public apply(target: Pole): Pole {
         return new Pole((this.pole + target.pole) % 2);
     }
@@ -40,5 +36,9 @@ export class Pole implements Apply<Pole, Pole>, Equal<Pole> {
     
     public isMinus(): boolean {
         return this.pole === PoleEnum.Minus;
+    }
+
+    public opposite(): Pole {
+        return new Pole((1 - this.pole) % 2);
     }
 }
