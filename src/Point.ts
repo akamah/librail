@@ -4,7 +4,11 @@ import { Rot } from './Rot';
 
 
 export class Point implements Apply<Point, Point>, Equal<Point> {
-    // single: 単線, double: 複線
+    /**
+     * @param single 単線
+     * @param double 複線
+     * @param up 段差，1はミニ橋脚の高さ，4はブロック橋脚の高さ
+     */
     public constructor(public single: Rot, public double: Rot, public up = 0) {}
 
     public static zero() {

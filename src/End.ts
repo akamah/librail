@@ -28,7 +28,7 @@ export class End implements Equal<End> {
     }
 
     public match(other: End): boolean {
-        return this.point == other.point &&
+        return this.point.equal(other.point) &&
             this.dir.match(other.dir) &&
             this.pole.match(other.pole);
     }

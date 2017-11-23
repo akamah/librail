@@ -37,6 +37,9 @@ export class Rot implements Apply<Rot, Rot>, Equal<Rot> {
         return this.add(that.neg());
     }
 
+    /**
+     * negate the point, rotate 180 degree around the origin
+     */
     public neg(): Rot {
         return new Rot(-this.a, -this.b, -this.c, -this.d);
     }
@@ -50,6 +53,10 @@ export class Rot implements Apply<Rot, Rot>, Equal<Rot> {
         );
     }
 
+    /**
+     * apply transform operation
+     * @param target the operand
+     */
     public apply(target: Rot): Rot {
         return this.add(target);
     }
