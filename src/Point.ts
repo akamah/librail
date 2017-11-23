@@ -1,8 +1,9 @@
 import { Apply } from './Apply';
+import { Equal } from './Equal';
 import { Rot } from './Rot';
 
 
-export class Point implements Apply<Point, Point> {
+export class Point implements Apply<Point, Point>, Equal<Point> {
     // single: 単線, double: 複線
     public constructor(public single: Rot, public double: Rot, public up = 0) {}
 
@@ -49,6 +50,12 @@ export class Point implements Apply<Point, Point> {
 
     public apply(target: Point): Point {
         return this.add(target);
+    }
+
+    public equal(other: Point): boolean {
+        return this.single.equal(other.single) &&
+               this.double.equal(other.double) &&
+               this.up === other.up;
     }
 
     public invert(): Point {

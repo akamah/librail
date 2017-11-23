@@ -1,6 +1,8 @@
 import { Rot } from './Rot';
 import { Point } from './Point'
 import { Apply } from './Apply';
+import { Equal } from './Equal';
+
 
 enum DirEnum {
     East = 0,
@@ -17,7 +19,7 @@ enum DirEnum {
  * Dirの正面方向，つまり角度としての0度の方向は東側とする．
  * そのため，negで逆をとったら南北が反転するものとする．
  */
-export class Dir implements Apply<Dir, Dir | Rot | Point> {
+export class Dir implements Apply<Dir, Dir | Rot | Point>, Equal<Dir> {
     public static readonly East      = new Dir(DirEnum.East);
     public static readonly NorthEast = new Dir(DirEnum.NorthEast);
     public static readonly North     = new Dir(DirEnum.North);
@@ -68,6 +70,10 @@ export class Dir implements Apply<Dir, Dir | Rot | Point> {
         }
     }
 
+    public equal(other: Dir): boolean {
+        return this.dir === other.dir;
+    }
+
     public invert(): Dir {
         return this.neg();
     }
@@ -95,5 +101,4 @@ export class Dir implements Apply<Dir, Dir | Rot | Point> {
             p.up
         );
     }
-
 }
