@@ -28,41 +28,50 @@ import { Dir } from './Dir'
 
  */
 
+// レールの種類によって共通した特徴をまとめたクラス
 export abstract class Rail {
-    constructor() {
-    }
+    abstract readonly name: string;
+    abstract readonly localEnds: End[];
 
-    protected abstract localEnds(): End[];
-}
+//    readonly canFlipVert: boolean;
+//    readonly originPoles: Pole[]; /* 原点に使える極の種類, 例えば自動ターンアウトレールは凸のみ */
 
-export class StraightRail extends Rail {
-    static readonly Origin   = End.plus(Point.zero(), Dir.East);
-    static readonly Straight = End.minus(Point.of(Rot.of(4)), Dir.West);
-    
-    constructor(
-        public readonly origin: End,
-        public readonly inverse: boolean // これは一般の場合で，直線の場合は無効となる
-    ) {
-        super();
-
-        if (origin.pole.isMinus()) {
-            const newOrigin = origin.apply(StraightRail.Straight);
-            this.origin = newOrigin;
-        } 
-    }
-
-    protected localEnds(): End[] {
-        return [StraightRail.Origin, StraightRail.Straight];
-    }
+    abstract readonly flipped: boolean;
+    abstract readonly origin: End;
 
     // この部分はすべてのレールに共通なわけだ
     public ends(): End[] {
-        return this.localEnds().map(e => {
-            if (this.inverse) {
+        return this.localEnds.map(e => {
+            if (this.flipped) {
                 return this.origin.apply(e.flipVert());
             } else {
                 return this.origin.apply(e);
             }
         });
     }
+}
+
+
+export class StraightRail extends Rail {
+    static readonly Origin   = End.plus(Point.zero(), Dir.East);
+    static readonly Straight = End.minus(Point.of(Rot.of(4)), Dir.West);
+    
+    name = "straight rail";
+    localEnds = [StraightRail.Origin, StraightRail.Straight];
+
+    constructor(
+        public readonly origin: End,
+        public readonly flipped: boolean
+    ) {
+        super();
+
+        if (origin.pole.isMinus()) {
+            const newOrigin = origin.apply(StraightRail.Straight);
+            this.origin = newOrigin;
+        }
+    }
+}
+
+export interface RailConstructor {
+    new(origin: End): Rail;
 }
