@@ -72,6 +72,26 @@ export class StraightRail extends Rail {
     }
 }
 
+export class CurveRail extends Rail {
+    static readonly Origin   = End.plus(Point.zero(), Dir.East);
+    static readonly Curve = End.minus(Point.of(Rot.of(0, 0, 4, -4)), Dir.SouthWest);
+    
+    name = "curve rail";
+    localEnds = [CurveRail.Origin, CurveRail.Curve];
+
+    constructor(
+        public readonly origin: End,
+        public readonly flipped: boolean
+    ) {
+        super();
+
+        if (origin.pole.isMinus()) {
+            const newOrigin = origin.apply(StraightRail.Straight);
+            this.origin = newOrigin;
+        }
+    }
+}
+
 export interface RailConstructor {
     new(origin: End): Rail;
 }
