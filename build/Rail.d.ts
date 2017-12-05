@@ -30,7 +30,7 @@ export declare class Rail {
     constructor(factory: RailFactory, term: number, origin: End, flip: Flip);
     ends(): End[];
 }
-export declare class Straight extends RailFactory {
+export declare class StraightRailFactory extends RailFactory {
     readonly O: End;
     readonly S: End;
     name: string;
@@ -42,7 +42,8 @@ export declare class Straight extends RailFactory {
         flip: Flip;
     };
 }
-export declare class Curve extends RailFactory {
+export declare const Straight: StraightRailFactory;
+export declare class CurveRailFactory extends RailFactory {
     readonly O: End;
     readonly C: End;
     name: string;
@@ -54,3 +55,4 @@ export declare class Curve extends RailFactory {
         flip: Flip;
     };
 }
+export declare const Curve: CurveRailFactory;

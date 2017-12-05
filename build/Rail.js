@@ -79,12 +79,12 @@ class Rail {
     }
 }
 exports.Rail = Rail;
-class Straight extends RailFactory {
+class StraightRailFactory extends RailFactory {
     constructor() {
         super(...arguments);
         this.O = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);
         this.S = End_1.End.minus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.West);
-        this.name = "1 straight";
+        this.name = "1/1 straight";
         this.localEnds = [this.O, this.S];
         this.canFlip = Meaning.DontCare;
         this.hasPole = Meaning.DontCare;
@@ -101,8 +101,9 @@ class Straight extends RailFactory {
         }
     }
 }
-exports.Straight = Straight;
-class Curve extends RailFactory {
+exports.StraightRailFactory = StraightRailFactory;
+exports.Straight = new StraightRailFactory();
+class CurveRailFactory extends RailFactory {
     constructor() {
         super(...arguments);
         this.O = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);
@@ -124,4 +125,5 @@ class Curve extends RailFactory {
         }
     }
 }
-exports.Curve = Curve;
+exports.CurveRailFactory = CurveRailFactory;
+exports.Curve = new CurveRailFactory();
