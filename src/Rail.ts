@@ -97,11 +97,11 @@ export class Rail {
 }
 
 
-export class Straight extends RailFactory {
+export class StraightRailFactory extends RailFactory {
     readonly O = End.plus(Point.zero(), Dir.East);
     readonly S = End.minus(Point.of(Rot.of(4)), Dir.West);
     
-    public name = "1 straight";
+    public name = "1/1 straight";
     public localEnds = [this.O, this.S];
     public canFlip = Meaning.DontCare;
     public hasPole = Meaning.DontCare;
@@ -119,7 +119,9 @@ export class Straight extends RailFactory {
     }
 }
 
-export class Curve extends RailFactory {
+export const Straight = new StraightRailFactory();
+
+export class CurveRailFactory extends RailFactory {
     readonly O = End.plus(Point.zero(), Dir.East);
     readonly C = End.minus(Point.of(Rot.of(0, 0, 4, -4)), Dir.SouthWest);
     
@@ -141,3 +143,4 @@ export class Curve extends RailFactory {
     }
 }
 
+export const Curve = new CurveRailFactory();
