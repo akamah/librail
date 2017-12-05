@@ -28,6 +28,9 @@ class Dir {
     add(by) {
         return new Dir((this.dir + by.dir) % 8);
     }
+    sub(by) {
+        return this.add(by.neg());
+    }
     neg() {
         return new Dir((8 - this.dir) % 8);
     }
@@ -42,14 +45,14 @@ class Dir {
             return this.rotateRot(target);
         }
     }
-    invert() {
-        return this.neg();
+    hasEffect() {
+        return this.dir !== DirEnum.East;
+    }
+    equal(other) {
+        return this.dir === other.dir;
     }
     flipVert() {
         return this.neg();
-    }
-    match(a) {
-        return this.opposite().dir === a.dir; // FIXME: equality?
     }
     toRot() {
         return Dir.rotTable[this.dir % 8];

@@ -28,20 +28,33 @@ class Rot {
     sub(that) {
         return this.add(that.neg());
     }
+    /**
+     * negate the point, rotate 180 degree around the origin
+     */
     neg() {
         return new Rot(-this.a, -this.b, -this.c, -this.d);
     }
     mul(that) {
         return new Rot(this.a * that.a - this.b * that.d - this.c * that.c - this.d * that.b, this.a * that.b + this.b * that.a - this.c * that.d - this.d * that.c, this.a * that.c + this.b * that.b + this.c * that.a - this.d * that.d, this.a * that.d + this.b * that.c + this.c * that.b + this.d * that.a);
     }
+    /**
+     * apply transform operation
+     * @param target the operand
+     */
     apply(target) {
         return this.add(target);
     }
-    invert() {
-        return this.neg();
+    hasEffect() {
+        return !this.isZero();
     }
-    flipVert() {
-        return Rot.of(this.a, -this.d, -this.c, -this.b);
+    isZero() {
+        return this.a === 0 && this.b === 0 && this.c === 0 && this.d === 0;
+    }
+    equal(other) {
+        return this.a === other.a &&
+            this.b === other.b &&
+            this.c === other.c &&
+            this.d === other.d;
     }
 }
 exports.Rot = Rot;

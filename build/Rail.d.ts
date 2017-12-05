@@ -1,13 +1,56 @@
 import { End } from './End';
-export declare abstract class Rail {
-    constructor();
-    protected abstract localEnds(): End[];
+import { Flip } from './Flip';
+export declare enum Meaning {
+    Impossible = 0,
+    DontCare = 1,
+    Meaingful = 2,
 }
-export declare class StraightRail extends Rail {
-    readonly origin: End;
-    readonly inverse: boolean;
-    static readonly STRAIGHT: End;
-    constructor(origin: End, inverse: boolean);
-    protected localEnds(): End[];
+export declare type RailInstance = {
+    origin: End;
+    flip: Flip;
+};
+export declare abstract class RailFactory {
+    abstract name: string;
+    abstract localEnds: End[];
+    abstract canFlip: Meaning;
+    abstract hasPole: Meaning;
+    /**
+     * このメソッドでは，端点termを指定された場合は，原点の座標に戻してインスタンスを作る．
+     * @param term a valid index of localEnds.
+     * @param origin origin
+     * @param flip isFlipped
+     */
+    create(term: number, termEnd: End, flip: Flip): RailInstance;
+    convert(from: number, to: number, end: End, flip: Flip): End;
+    canCreate(term: number, origin: End, flip: Flip): boolean;
+}
+export declare class Rail {
+    factory: RailFactory;
+    instance: RailInstance;
+    constructor(factory: RailFactory, term: number, origin: End, flip: Flip);
     ends(): End[];
+}
+export declare class Straight extends RailFactory {
+    readonly O: End;
+    readonly S: End;
+    name: string;
+    localEnds: End[];
+    canFlip: Meaning;
+    hasPole: Meaning;
+    create(term: number, origin: End, flip: Flip): {
+        origin: End;
+        flip: Flip;
+    };
+}
+export declare class Curve extends RailFactory {
+    readonly O: End;
+    readonly C: End;
+    name: string;
+    localEnds: End[];
+    canFlip: Meaning;
+    hasPole: Meaning;
+    create(term: number, origin: End, flip: Flip): {
+        origin: End;
+        flip: Flip;
+    };
 }

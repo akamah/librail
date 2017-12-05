@@ -2,7 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Rot_1 = require("./Rot");
 class Point {
-    // single: 単線, double: 複線
+    /**
+     * @param single 単線
+     * @param double 複線
+     * @param up 段差，1はミニ橋脚の高さ，4はブロック橋脚の高さ
+     */
     constructor(single, double, up = 0) {
         this.single = single;
         this.double = double;
@@ -35,24 +39,25 @@ class Point {
     add(other) {
         return new Point(this.single.add(other.single), this.double.add(other.double), this.up + other.up);
     }
+    sub(other) {
+        return this.add(other.neg());
+    }
     neg() {
         return new Point(this.single.neg(), this.double.neg(), -this.up);
     }
     apply(target) {
         return this.add(target);
     }
-    invert() {
-        return this.neg();
+    equal(other) {
+        return this.single.equal(other.single) &&
+            this.double.equal(other.double) &&
+            this.up === other.up;
     }
-    rotate(dir) {
-        return new Point(this.single.mul(dir.toRot()), this.double.mul(dir.toRot()), this.up);
+    hasEffect() {
+        return !this.isZero();
     }
-    /**
-     * flipVert rotates the point along X-axis by 180 degree.
-     * so `this.up` will be negated.
-     */
-    flipVert() {
-        return Point.of(this.single.flipVert(), this.double.flipVert(), -this.up);
+    isZero() {
+        return this.single.isZero() && this.double.isZero() && this.up === 0;
     }
 }
 exports.Point = Point;

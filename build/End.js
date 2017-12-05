@@ -20,10 +20,14 @@ class End {
     static minus(point, dir) {
         return new this(point, dir, Pole_1.Pole.Minus);
     }
+    /**
+     * 2つのレールの端点として見たとき，カチっとはまるかどうか
+     * @param other もう片方の端点
+     */
     match(other) {
-        return this.point == other.point &&
-            this.dir.match(other.dir) &&
-            this.pole.match(other.pole);
+        return this.point.equal(other.point) &&
+            this.dir.equal(other.dir.opposite()) &&
+            this.pole.equal(other.pole.opposite());
     }
     /**
      * thisが意味する座標変換を行う．つまり，ローカルからグローバル
@@ -32,9 +36,10 @@ class End {
     apply(local) {
         return End.of(this.point.apply(this.dir.apply(local.point)), this.dir.apply(local.dir), this.pole.apply(local.pole));
     }
-    // flip horizontally
-    flipVert() {
-        return End.of(this.point.flipVert(), this.dir.flipVert(), this.pole);
+    equal(other) {
+        return this.point.equal(other.point) &&
+            this.dir.equal(other.dir) &&
+            this.pole.equal(other.pole);
     }
 }
 exports.End = End;

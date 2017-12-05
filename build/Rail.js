@@ -4,6 +4,8 @@ const Rot_1 = require("./Rot");
 const Point_1 = require("./Point");
 const End_1 = require("./End");
 const Dir_1 = require("./Dir");
+const Flip_1 = require("./Flip");
+const Transform_1 = require("./Transform");
 // # レールの種類ごとに共通した特徴
 // * 端点の(位置)と(凹凸)と(方向)
 // * 状態数
@@ -17,40 +19,109 @@ const Dir_1 = require("./Dir");
 
 */
 // レールはどんどん継承して作っていくことにした
-/* レールのローカルから見た端点の方向は，外側に向かう方向とする．
+/* レールのローカルから見た端点の方向は，内側に向かう方向とする．
  * 例えば，原点から東においた直線レールの場合，
- * 原点の方の端の方向は西で，a = 1の部分の方向は東となる．
+ * 原点の方の端の方向は東で，a = 1の部分の方向は西となる．
+ * こうすることで，原点でのローカルとグローバルのギャップがなくなり，座標変換が素直に対応する．
  *
 
  */
-class Rail {
-    constructor() {
+var Meaning;
+(function (Meaning) {
+    Meaning[Meaning["Impossible"] = 0] = "Impossible";
+    Meaning[Meaning["DontCare"] = 1] = "DontCare";
+    Meaning[Meaning["Meaingful"] = 2] = "Meaingful";
+})(Meaning = exports.Meaning || (exports.Meaning = {}));
+class RailFactory {
+    /**
+     * このメソッドでは，端点termを指定された場合は，原点の座標に戻してインスタンスを作る．
+     * @param term a valid index of localEnds.
+     * @param origin origin
+     * @param flip isFlipped
+     */
+    create(term, termEnd, flip) {
+        let origin = this.convert(term, 0, termEnd, flip);
+        return { origin: origin, flip: flip };
+    }
+    convert(from, to, end, flip) {
+        let oEnd = flip.apply(this.localEnds[from]);
+        let tEnd = flip.apply(this.localEnds[to]);
+        let fromto = new Transform_1.FromTo(tEnd, oEnd);
+        let origin = fromto.apply(end);
+        return origin;
+    }
+    canCreate(term, origin, flip) {
+        if (term < 0 || this.localEnds.length <= term) {
+            return false;
+        }
+        else if (this.canFlip === Meaning.Impossible && flip.hasEffect()) {
+            return false;
+        }
+        else if (this.hasPole === Meaning.Impossible && origin.pole.hasEffect()) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }
-exports.Rail = Rail;
-class StraightRail extends Rail {
-    constructor(origin, inverse) {
-        super();
-        this.origin = origin;
-        this.inverse = inverse;
-    }
-    localEnds() {
-        return [
-            End_1.End.minus(Point_1.Point.zero(), Dir_1.Dir.West),
-            End_1.End.plus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.East)
-        ];
+exports.RailFactory = RailFactory;
+class Rail {
+    constructor(factory, term, origin, flip) {
+        this.factory = factory;
+        this.instance = factory.create(term, origin, flip);
     }
     // この部分はすべてのレールに共通なわけだ
     ends() {
-        return this.localEnds().map(e => {
-            if (this.inverse) {
-                return e.flipVert().apply(this.origin);
-            }
-            else {
-                return e.apply(this.origin);
-            }
+        return this.factory.localEnds.map(e => {
+            return this.instance.origin.apply(this.instance.flip.apply(e));
         });
     }
 }
-StraightRail.STRAIGHT = End_1.End.plus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.East);
-exports.StraightRail = StraightRail;
+exports.Rail = Rail;
+class Straight extends RailFactory {
+    constructor() {
+        super(...arguments);
+        this.O = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);
+        this.S = End_1.End.minus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.West);
+        this.name = "1 straight";
+        this.localEnds = [this.O, this.S];
+        this.canFlip = Meaning.DontCare;
+        this.hasPole = Meaning.DontCare;
+    }
+    create(term, origin, flip) {
+        let { origin: o, flip: f } = super.create(term, origin, flip);
+        // 重複が発生するため処理する．
+        if (o.pole.isMinus()) {
+            let newOrigin = this.convert(0, 1, o, f);
+            return { origin: newOrigin, flip: Flip_1.Flip.No };
+        }
+        else {
+            return { origin: o, flip: Flip_1.Flip.No };
+        }
+    }
+}
+exports.Straight = Straight;
+class Curve extends RailFactory {
+    constructor() {
+        super(...arguments);
+        this.O = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);
+        this.C = End_1.End.minus(Point_1.Point.of(Rot_1.Rot.of(0, 0, 4, -4)), Dir_1.Dir.SouthWest);
+        this.name = "1/8 curve";
+        this.localEnds = [this.O, this.C];
+        this.canFlip = Meaning.DontCare;
+        this.hasPole = Meaning.DontCare;
+    }
+    create(term, origin, flip) {
+        let { origin: o, flip: f } = super.create(term, origin, flip);
+        // 重複が発生する．
+        if (o.pole.isMinus()) {
+            let newOrigin = this.convert(0, 1, o, f);
+            return { origin: newOrigin, flip: f.opposite() };
+        }
+        else {
+            return { origin: o, flip: f };
+        }
+    }
+}
+exports.Curve = Curve;
