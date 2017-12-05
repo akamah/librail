@@ -44,6 +44,10 @@ export class Point implements Apply<Point, Point>, Equal<Point> {
             this.up + other.up);
     }
 
+    public sub(other: Point): Point {
+        return this.add(other.neg());
+    }
+
     public neg(): Point {
         return new Point(
             this.single.neg(),
@@ -62,18 +66,11 @@ export class Point implements Apply<Point, Point>, Equal<Point> {
                this.up === other.up;
     }
 
-    public invert(): Point {
-        return this.neg();
+    public hasEffect(): boolean {
+        return !this.isZero();
     }
 
-    /**
-     * flipVert rotates the point along X-axis by 180 degree.
-     * so `this.up` will be negated.
-     */
-    public flipVert(): Point {
-        return Point.of(
-                this.single.flipVert(),
-                this.double.flipVert(),
-                -this.up);
+    public isZero(): boolean {
+        return this.single.isZero() && this.double.isZero() && this.up === 0;
     }
 }

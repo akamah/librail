@@ -2,6 +2,7 @@ import { Point } from './Point';
 import { Dir } from './Dir';
 import { Pole } from './Pole';
 import { Equal } from './Equal';
+import { Apply } from './Apply'
 
 
 /**
@@ -52,12 +53,5 @@ export class End implements Equal<End> {
         return this.point.equal(other.point) &&
                this.dir.equal(other.dir) &&
                this.pole.equal(other.pole);
-    }
-
-    // flip horizontally
-    public flipVert(): End {
-        return End.of(this.point.flipVert(),
-                      this.dir.flipVert(),
-                      this.pole);
     }
 }

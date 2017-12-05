@@ -61,12 +61,12 @@ export class Rot implements Apply<Rot, Rot>, Equal<Rot> {
         return this.add(target);
     }
 
-    public invert(): Rot {
-        return this.neg();
+    public hasEffect(): boolean {
+        return !this.isZero();
     }
 
-    public flipVert(): Rot {
-        return Rot.of(this.a, -this.d, -this.c, -this.b)
+    public isZero(): boolean {
+        return this.a === 0 && this.b === 0 && this.c === 0 && this.d === 0;
     }
 
     public equal(other: Rot): boolean {

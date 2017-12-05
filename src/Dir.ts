@@ -52,6 +52,10 @@ export class Dir implements Apply<Dir, Dir | Rot | Point>, Equal<Dir> {
         return new Dir((this.dir + by.dir) % 8);
     }
 
+    public sub(by: Dir): Dir {
+        return this.add(by.neg());
+    }
+
     public neg(): Dir {
         return new Dir((8 - this.dir) % 8);
     }
@@ -70,12 +74,12 @@ export class Dir implements Apply<Dir, Dir | Rot | Point>, Equal<Dir> {
         }
     }
 
-    public equal(other: Dir): boolean {
-        return this.dir === other.dir;
+    public hasEffect(): boolean {
+        return this.dir !== DirEnum.East;
     }
 
-    public invert(): Dir {
-        return this.neg();
+    public equal(other: Dir): boolean {
+        return this.dir === other.dir;
     }
 
     public flipVert(): Dir {

@@ -1,5 +1,6 @@
 import { Apply } from './Apply'
 import { Equal } from './Equal';
+import { End } from './End';
 
 
 enum PoleEnum {
@@ -18,16 +19,34 @@ export class Pole implements Apply<Pole, Pole>, Equal<Pole> {
         this.pole = pole % 2;
     }
 
-    public apply(target: Pole): Pole {
+
+    public apply(target: Pole): Pole;
+    public apply(target: End): End;
+    public apply(target: Pole | End): Pole | End {
+        if (target instanceof Pole) {
+            return this.applyPole(target);
+        } else {
+            return this.applyEnd(target);
+        }
+    }
+
+    public applyPole(target: Pole): Pole {
         return new Pole((this.pole + target.pole) % 2);
+    }
+
+    public applyEnd(target: End): End {
+        if (this.isMinus()) {
+            return new End(
+                target.point,
+                target.dir,
+                this.applyPole(target.pole));
+        } else {
+            return target;
+        }
     }
 
     public equal(other: Pole): boolean {
         return this.pole === other.pole;
-    }
-
-    public invert(): Pole {
-        return this;
     }
 
     public isPlus(): boolean {
@@ -36,6 +55,10 @@ export class Pole implements Apply<Pole, Pole>, Equal<Pole> {
     
     public isMinus(): boolean {
         return this.pole === PoleEnum.Minus;
+    }
+
+    public hasEffect(): boolean {
+        return this.isMinus();
     }
 
     public opposite(): Pole {

@@ -3,6 +3,8 @@ import { Point } from './Point'
 import { Pole } from './Pole'
 import { End } from './End'
 import { Dir } from './Dir'
+import { Flip } from './Flip'
+import { FromTo } from './Transform'
 
 
 // # レールの種類ごとに共通した特徴
@@ -28,70 +30,114 @@ import { Dir } from './Dir'
 
  */
 
-// レールの種類によって共通した特徴をまとめたクラス
-export abstract class Rail {
-    abstract readonly name: string;
-    abstract readonly localEnds: End[];
+export enum Meaning {
+    Impossible = 0,
+    DontCare = 1,
+    Meaingful = 2
+}
 
-//    readonly canFlipVert: boolean;
-//    readonly originPoles: Pole[]; /* 原点に使える極の種類, 例えば自動ターンアウトレールは凸のみ */
+export type RailInstance = {
+    origin: End,
+    flip:   Flip
+};
 
-    abstract readonly flipped: boolean;
-    abstract readonly origin: End;
+export abstract class RailFactory {
+    abstract name: string; // this string can be a key or object property
+    abstract localEnds: End[]; // [0] should be origin
 
-    // この部分はすべてのレールに共通なわけだ
+    abstract canFlip: Meaning;
+    abstract hasPole: Meaning;
+
+    /**
+     * このメソッドでは，端点termを指定された場合は，原点の座標に戻してインスタンスを作る．
+     * @param term a valid index of localEnds.
+     * @param origin origin
+     * @param flip isFlipped
+     */
+    public create(term: number, termEnd: End, flip: Flip): RailInstance {
+        let origin = this.convert(term, 0, termEnd, flip);
+        return { origin: origin, flip: flip };
+    }
+
+    public convert(from: number, to: number, end: End, flip: Flip): End {
+        let oEnd = flip.apply(this.localEnds[from]);
+        let tEnd = flip.apply(this.localEnds[to]);
+
+        let fromto = new FromTo(tEnd, oEnd);
+        let origin = fromto.apply(end);
+
+        return origin;
+    }
+
+    public canCreate(term: number, origin: End, flip: Flip): boolean {
+        if (term < 0 || this.localEnds.length <= term ) {
+            return false;
+        } else if (this.canFlip === Meaning.Impossible && flip.hasEffect()) {
+            return false;
+        } else if (this.hasPole === Meaning.Impossible && origin.pole.hasEffect()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+export class Rail {
+    public instance: RailInstance;
+    public constructor(public factory: RailFactory, term: number, origin: End, flip: Flip) {
+        this.instance = factory.create(term, origin, flip);
+    }
+
+     // この部分はすべてのレールに共通なわけだ
     public ends(): End[] {
-        return this.localEnds.map(e => {
-            if (this.flipped) {
-                return this.origin.apply(e.flipVert());
-            } else {
-                return this.origin.apply(e);
-            }
+        return this.factory.localEnds.map(e => {
+            return this.instance.origin.apply(this.instance.flip.apply(e));
         });
     }
 }
 
 
-export class StraightRail extends Rail {
-    static readonly Origin   = End.plus(Point.zero(), Dir.East);
-    static readonly Straight = End.minus(Point.of(Rot.of(4)), Dir.West);
+export class Straight extends RailFactory {
+    readonly O = End.plus(Point.zero(), Dir.East);
+    readonly S = End.minus(Point.of(Rot.of(4)), Dir.West);
     
-    name = "straight rail";
-    localEnds = [StraightRail.Origin, StraightRail.Straight];
+    public name = "1 straight";
+    public localEnds = [this.O, this.S];
+    public canFlip = Meaning.DontCare;
+    public hasPole = Meaning.DontCare;
 
-    constructor(
-        public readonly origin: End,
-        public readonly flipped: boolean
-    ) {
-        super();
+    public create(term: number, origin: End, flip: Flip) {
+        let { origin: o, flip: f } = super.create(term, origin, flip);
 
-        if (origin.pole.isMinus()) {
-            const newOrigin = origin.apply(StraightRail.Straight);
-            this.origin = newOrigin;
+        // 重複が発生するため処理する．
+        if (o.pole.isMinus()) {
+            let newOrigin = this.convert(0, 1, o, f);
+            return { origin: newOrigin, flip: Flip.No };
+        } else {
+            return { origin: o, flip: Flip.No };
         }
     }
 }
 
-export class CurveRail extends Rail {
-    static readonly Origin   = End.plus(Point.zero(), Dir.East);
-    static readonly Curve = End.minus(Point.of(Rot.of(0, 0, 4, -4)), Dir.SouthWest);
+export class Curve extends RailFactory {
+    readonly O = End.plus(Point.zero(), Dir.East);
+    readonly C = End.minus(Point.of(Rot.of(0, 0, 4, -4)), Dir.SouthWest);
     
-    name = "curve rail";
-    localEnds = [CurveRail.Origin, CurveRail.Curve];
+    public name = "1/8 curve";
+    public localEnds = [this.O, this.C];
+    public canFlip = Meaning.DontCare;
+    public hasPole = Meaning.DontCare;
 
-    constructor(
-        public readonly origin: End,
-        public readonly flipped: boolean
-    ) {
-        super();
+    public create(term: number, origin: End, flip: Flip) {
+        let { origin: o, flip: f } = super.create(term, origin, flip);
 
-        if (origin.pole.isMinus()) {
-            const newOrigin = origin.apply(StraightRail.Straight);
-            this.origin = newOrigin;
+        // 重複が発生する．
+        if (o.pole.isMinus()) {
+            let newOrigin = this.convert(0, 1, o, f)
+            return { origin: newOrigin, flip: f.opposite() };
+        } else {
+            return { origin: o, flip: f };
         }
     }
 }
 
-export interface RailConstructor {
-    new(origin: End): Rail;
-}
