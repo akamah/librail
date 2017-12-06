@@ -30,7 +30,7 @@ var Meaning;
 (function (Meaning) {
     Meaning[Meaning["Impossible"] = 0] = "Impossible";
     Meaning[Meaning["DontCare"] = 1] = "DontCare";
-    Meaning[Meaning["Meaingful"] = 2] = "Meaingful";
+    Meaning[Meaning["Meaningful"] = 2] = "Meaningful";
 })(Meaning = exports.Meaning || (exports.Meaning = {}));
 class RailFactory {
     /**
@@ -127,3 +127,27 @@ class CurveRailFactory extends RailFactory {
 }
 exports.CurveRailFactory = CurveRailFactory;
 exports.Curve = new CurveRailFactory();
+class SlopeRailFactory extends RailFactory {
+    constructor() {
+        super(...arguments);
+        this.O = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);
+        this.S = End_1.End.minus(Point_1.Point.of(Rot_1.Rot.of(8), Rot_1.Rot.of(0), 4), Dir_1.Dir.West);
+        this.name = "slope";
+        this.localEnds = [this.O, this.S];
+        this.canFlip = Meaning.Meaningful;
+        this.hasPole = Meaning.DontCare;
+    }
+    create(term, origin, flip) {
+        let { origin: o, flip: f } = super.create(term, origin, flip);
+        // 重複が発生するため処理する．
+        if (o.pole.isMinus()) {
+            let newOrigin = this.convert(0, 1, o, f);
+            return { origin: newOrigin, flip: f.opposite() };
+        }
+        else {
+            return { origin: o, flip: f };
+        }
+    }
+}
+exports.SlopeRailFactory = SlopeRailFactory;
+exports.Slope = new SlopeRailFactory();

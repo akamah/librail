@@ -3,7 +3,7 @@ import { Flip } from './Flip';
 export declare enum Meaning {
     Impossible = 0,
     DontCare = 1,
-    Meaingful = 2,
+    Meaningful = 2,
 }
 export declare type RailInstance = {
     origin: End;
@@ -56,3 +56,16 @@ export declare class CurveRailFactory extends RailFactory {
     };
 }
 export declare const Curve: CurveRailFactory;
+export declare class SlopeRailFactory extends RailFactory {
+    readonly O: End;
+    readonly S: End;
+    name: string;
+    localEnds: End[];
+    canFlip: Meaning;
+    hasPole: Meaning;
+    create(term: number, origin: End, flip: Flip): {
+        origin: End;
+        flip: Flip;
+    };
+}
+export declare const Slope: SlopeRailFactory;

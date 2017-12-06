@@ -16,3 +16,4 @@ const Rail_1 = require("./Rail");
 exports.Rail = Rail_1.Rail;
 exports.Straight = Rail_1.Straight;
 exports.Curve = Rail_1.Curve;
+exports.Slope = Rail_1.Slope;
