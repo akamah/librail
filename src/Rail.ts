@@ -33,7 +33,7 @@ import { FromTo } from './Transform'
 export enum Meaning {
     Impossible = 0,
     DontCare = 1,
-    Meaingful = 2
+    Meaningful = 2
 }
 
 export type RailInstance = {
@@ -144,3 +144,28 @@ export class CurveRailFactory extends RailFactory {
 }
 
 export const Curve = new CurveRailFactory();
+
+
+export class SlopeRailFactory extends RailFactory {
+    readonly O = End.plus(Point.zero(), Dir.East);
+    readonly S = End.minus(Point.of(Rot.of(8), Rot.of(0), 4), Dir.West);
+    
+    public name = "slope";
+    public localEnds = [this.O, this.S];
+    public canFlip = Meaning.Meaningful;
+    public hasPole = Meaning.DontCare;
+
+    public create(term: number, origin: End, flip: Flip) {
+        let { origin: o, flip: f } = super.create(term, origin, flip);
+
+        // 重複が発生するため処理する．
+        if (o.pole.isMinus()) {
+            let newOrigin = this.convert(0, 1, o, f);
+            return { origin: newOrigin, flip: f.opposite() };
+        } else {
+            return { origin: o, flip: f };
+        }
+    }
+}
+
+export const Slope = new SlopeRailFactory();
