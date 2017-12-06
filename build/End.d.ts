@@ -19,6 +19,7 @@ export declare class End implements Equal<End> {
      * @param other もう片方の端点
      */
     match(other: End): boolean;
+    opposite(): End;
     /**
      * thisが意味する座標変換を行う．つまり，ローカルからグローバル
      * @param target ローカル座標

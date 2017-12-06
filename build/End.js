@@ -25,9 +25,10 @@ class End {
      * @param other もう片方の端点
      */
     match(other) {
-        return this.point.equal(other.point) &&
-            this.dir.equal(other.dir.opposite()) &&
-            this.pole.equal(other.pole.opposite());
+        return this.equal(this.opposite());
+    }
+    opposite() {
+        return End.of(this.point, this.dir.opposite(), this.pole.opposite());
     }
     /**
      * thisが意味する座標変換を行う．つまり，ローカルからグローバル

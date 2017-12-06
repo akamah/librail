@@ -33,9 +33,14 @@ export class End implements Equal<End> {
      * @param other もう片方の端点
      */
     public match(other: End): boolean {
-        return this.point.equal(other.point) &&
-            this.dir.equal(other.dir.opposite()) &&
-            this.pole.equal(other.pole.opposite());
+        return this.equal(this.opposite());
+    }
+
+    public opposite(): End {
+        return End.of(
+            this.point,
+            this.dir.opposite(),
+            this.pole.opposite());
     }
 
     /**
