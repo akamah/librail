@@ -63,6 +63,9 @@ class Dir {
     rotatePoint(p) {
         return new Point_1.Point(this.rotateRot(p.single), this.rotateRot(p.double), p.up);
     }
+    valueOf() {
+        return this.dir.toString();
+    }
 }
 Dir.East = new Dir(DirEnum.East);
 Dir.NorthEast = new Dir(DirEnum.NorthEast);

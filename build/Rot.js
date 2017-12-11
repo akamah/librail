@@ -56,5 +56,29 @@ class Rot {
             this.c === other.c &&
             this.d === other.d;
     }
+    stringifyWithSign(n) {
+        if (n < 0) {
+            return n.toString();
+        }
+        else {
+            return "+" + n.toString();
+        }
+    }
+    valueOf() {
+        var s = this.a.toString();
+        if (this.b === 0 && this.c === 0 && this.d === 0) {
+            return s;
+        }
+        s += this.stringifyWithSign(this.b);
+        if (this.c === 0 && this.d === 0) {
+            return s;
+        }
+        s += this.stringifyWithSign(this.c);
+        if (this.d === 0) {
+            return s;
+        }
+        s += this.stringifyWithSign(this.d);
+        return s;
+    }
 }
 exports.Rot = Rot;

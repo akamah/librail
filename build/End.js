@@ -25,7 +25,7 @@ class End {
      * @param other もう片方の端点
      */
     match(other) {
-        return this.equal(this.opposite());
+        return this.equal(other.opposite());
     }
     opposite() {
         return End.of(this.point, this.dir.opposite(), this.pole.opposite());
@@ -41,6 +41,12 @@ class End {
         return this.point.equal(other.point) &&
             this.dir.equal(other.dir) &&
             this.pole.equal(other.pole);
+    }
+    valueOf() {
+        return this.point.valueOf() + "," + this.dir.valueOf() + "," + this.pole.valueOf();
+    }
+    toString() {
+        return this.valueOf();
     }
 }
 exports.End = End;

@@ -26,4 +26,6 @@ export declare class End implements Equal<End> {
      */
     apply(local: End): End;
     equal(other: End): boolean;
+    valueOf(): string;
+    toString(): string;
 }

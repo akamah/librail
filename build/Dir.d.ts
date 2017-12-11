@@ -31,4 +31,5 @@ export declare class Dir implements Apply<Dir, Dir | Rot | Point>, Equal<Dir> {
     toRot(): Rot;
     rotateRot(r: Rot): Rot;
     rotatePoint(p: Point): Point;
+    valueOf(): string;
 }

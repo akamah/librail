@@ -18,4 +18,5 @@ export declare class Pole implements Apply<Pole, Pole>, Equal<Pole> {
     isMinus(): boolean;
     hasEffect(): boolean;
     opposite(): Pole;
+    valueOf(): string;
 }

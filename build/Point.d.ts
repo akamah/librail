@@ -10,7 +10,7 @@ export declare class Point implements Apply<Point, Point>, Equal<Point> {
      * @param double 複線
      * @param up 段差，1はミニ橋脚の高さ，4はブロック橋脚の高さ
      */
-    constructor(single: Rot, double: Rot, up?: number);
+    constructor(single: Rot, double: Rot, up: number);
     static zero(): Point;
     static of(s: Rot, d?: Rot, u?: number): Point;
     add(other: Point): Point;
@@ -20,4 +20,5 @@ export declare class Point implements Apply<Point, Point>, Equal<Point> {
     equal(other: Point): boolean;
     hasEffect(): boolean;
     isZero(): boolean;
+    valueOf(): string;
 }

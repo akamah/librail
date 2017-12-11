@@ -29,4 +29,6 @@ export declare class Rot implements Apply<Rot, Rot>, Equal<Rot> {
     hasEffect(): boolean;
     isZero(): boolean;
     equal(other: Rot): boolean;
+    private stringifyWithSign(n);
+    valueOf(): string;
 }

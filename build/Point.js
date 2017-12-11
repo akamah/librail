@@ -7,7 +7,7 @@ class Point {
      * @param double 複線
      * @param up 段差，1はミニ橋脚の高さ，4はブロック橋脚の高さ
      */
-    constructor(single, double, up = 0) {
+    constructor(single, double, up) {
         this.single = single;
         this.double = double;
         this.up = up;
@@ -58,6 +58,9 @@ class Point {
     }
     isZero() {
         return this.single.isZero() && this.double.isZero() && this.up === 0;
+    }
+    valueOf() {
+        return this.single.valueOf() + ":" + this.double.valueOf() + ":" + this.up.toString();
     }
 }
 exports.Point = Point;

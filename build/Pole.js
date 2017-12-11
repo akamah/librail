@@ -48,6 +48,9 @@ class Pole {
     opposite() {
         return new Pole((1 - this.pole) % 2);
     }
+    valueOf() {
+        return this.pole.toString();
+    }
 }
 Pole.Plus = new Pole(PoleEnum.Plus);
 Pole.Minus = new Pole(PoleEnum.Minus);

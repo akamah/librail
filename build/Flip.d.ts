@@ -25,4 +25,5 @@ export declare class Flip implements Apply<Flip, Flip | Dir | Rot | Point | End>
     equal(other: Flip): boolean;
     isYes(): boolean;
     opposite(): Flip;
+    valueOf(): string;
 }

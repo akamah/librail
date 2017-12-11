@@ -68,6 +68,9 @@ class Flip {
     opposite() {
         return new Flip((1 - this.flip) % 2);
     }
+    valueOf() {
+        return this.flip.toString();
+    }
 }
 Flip.No = new Flip(FlipEnum.No);
 Flip.Yes = new Flip(FlipEnum.Yes);
