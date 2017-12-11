@@ -9,7 +9,7 @@ export class Point implements Apply<Point, Point>, Equal<Point> {
      * @param double 複線
      * @param up 段差，1はミニ橋脚の高さ，4はブロック橋脚の高さ
      */
-    public constructor(public single: Rot, public double: Rot, public up = 0) {}
+    public constructor(public single: Rot, public double: Rot, public up: number) {}
 
     public static zero() {
         return new Point(Rot.zero(), Rot.zero(), 0);
