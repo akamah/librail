@@ -33,7 +33,7 @@ export class End implements Equal<End> {
      * @param other もう片方の端点
      */
     public match(other: End): boolean {
-        return this.equal(this.opposite());
+        return this.equal(other.opposite());
     }
 
     public opposite(): End {
