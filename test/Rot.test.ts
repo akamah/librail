@@ -26,4 +26,16 @@ describe("Rot", () => {
         assert.deepEqual(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 1, 0)), Rot.of(-3, -4, 1, 2));
         assert.deepEqual(Rot.of(1, 2, 3, 4).mul(Rot.of(0, 0, 0, 1)), Rot.of(-2, -3, -4, 1));
     });
+
+    it('valueOf', () => {
+        assert.equal(Rot.of(1, 2, 3, 4).valueOf(), "1+2+3+4");
+        assert.equal(Rot.of(1, 2, 3, 0).valueOf(), "1+2+3");
+        assert.equal(Rot.of(1, 2, 0, 0).valueOf(), "1+2");
+        assert.equal(Rot.of(1, 0, 0, 0).valueOf(), "1");
+        assert.equal(Rot.of(0, 0, 0, 0).valueOf(), "0");
+        assert.equal(Rot.of(-1, -2, -3, -4).valueOf(), "-1-2-3-4");
+        assert.equal(Rot.of(0, -2, -3, -4).valueOf(), "0-2-3-4");
+        assert.equal(Rot.of(-1, 0, -3, -4).valueOf(), "-1+0-3-4");
+       
+    });
 });

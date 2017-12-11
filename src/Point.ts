@@ -73,4 +73,8 @@ export class Point implements Apply<Point, Point>, Equal<Point> {
     public isZero(): boolean {
         return this.single.isZero() && this.double.isZero() && this.up === 0;
     }
+
+    public valueOf(): string {
+        return this.single.valueOf() + ":" + this.double.valueOf() + ":" + this.up.toString();
+    }
 }

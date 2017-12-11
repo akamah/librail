@@ -64,4 +64,8 @@ export class Pole implements Apply<Pole, Pole>, Equal<Pole> {
     public opposite(): Pole {
         return new Pole((1 - this.pole) % 2);
     }
+
+    public valueOf(): string {
+        return this.pole.toString();
+    }
 }

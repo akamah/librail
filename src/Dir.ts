@@ -101,4 +101,8 @@ export class Dir implements Apply<Dir, Dir | Rot | Point>, Equal<Dir> {
             p.up
         );
     }
+
+    public valueOf(): string {
+        return this.dir.toString();
+    }
 }

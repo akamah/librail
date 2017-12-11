@@ -15,4 +15,11 @@ describe("End", () => {
         assert.deepEqual(global.apply(local), expect);
         
     });
+
+    it('match', () => {
+        const a = End.of(Point.of(Rot.of(0, 0, 0, 0), Rot.zero(), 1), Dir.North, Pole.Minus);
+        const e = End.of(Point.of(Rot.of(0, 0, 0, 0), Rot.zero(), 1), Dir.South, Pole.Plus);
+        
+        assert.deepEqual(a.opposite(), e);
+    })
 });

@@ -59,4 +59,12 @@ export class End implements Equal<End> {
                this.dir.equal(other.dir) &&
                this.pole.equal(other.pole);
     }
+
+    public valueOf(): string {
+        return this.point.valueOf() + "," + this.dir.valueOf() + "," + this.pole.valueOf();
+    }
+
+    public toString(): string {
+        return this.valueOf();
+    }
 }

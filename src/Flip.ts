@@ -88,4 +88,8 @@ export class Flip implements Apply<Flip, Flip | Dir | Rot | Point | End>, Equal<
     public opposite(): Flip {
         return new Flip((1 - this.flip) % 2);
     }
+
+    public valueOf(): string {
+        return this.flip.toString();
+    }
 }
