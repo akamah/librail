@@ -17,3 +17,6 @@ exports.Rail = Rail_1.Rail;
 exports.Straight = Rail_1.Straight;
 exports.Curve = Rail_1.Curve;
 exports.Slope = Rail_1.Slope;
+const Pier_1 = require("./Pier");
+exports.Pier = Pier_1.Pier;
+exports.MiniPier = Pier_1.MiniPier;
