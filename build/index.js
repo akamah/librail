@@ -1,22 +1,13 @@
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
-const Dir_1 = require("./Dir");
-exports.Dir = Dir_1.Dir;
-const End_1 = require("./End");
-exports.End = End_1.End;
-const Point_1 = require("./Point");
-exports.Point = Point_1.Point;
-const Pole_1 = require("./Pole");
-exports.Pole = Pole_1.Pole;
-const Rot_1 = require("./Rot");
-exports.Rot = Rot_1.Rot;
-const Flip_1 = require("./Flip");
-exports.Flip = Flip_1.Flip;
-const Rail_1 = require("./Rail");
-exports.Rail = Rail_1.Rail;
-exports.Straight = Rail_1.Straight;
-exports.Curve = Rail_1.Curve;
-exports.Slope = Rail_1.Slope;
-const Pier_1 = require("./Pier");
-exports.Pier = Pier_1.Pier;
-exports.MiniPier = Pier_1.MiniPier;
+__export(require("./Dir"));
+__export(require("./End"));
+__export(require("./Point"));
+__export(require("./Pole"));
+__export(require("./Rot"));
+__export(require("./Flip"));
+__export(require("./Rail"));
+__export(require("./Pier"));
