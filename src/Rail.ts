@@ -41,13 +41,39 @@ export type RailInstance = {
     flip:   Flip
 };
 
-export abstract class RailFactory {
-    abstract name: string; // this string can be a key or object property
-    abstract localEnds: End[]; // [0] should be origin
+export class RailFactory {
+// this string can be a key or object property
+ // [0] should be origin
 
-    abstract canFlip: Meaning;
-    abstract hasPole: Meaning;
+    // canFlip is Impossible => Flip.No only
+    //            DontCare => flip will be Flip.No, but one can specify Flip.Yes
+    //            Meaningful => set to given parameter
 
+    // hasPole is Impossible => origin's pole must be Pole.Plus
+    //            DontCare => will be normalized to Pole.Plus, by flipping and
+    //                        setting the origin to other end,
+    //                        therefore localEnds should have exact 2 elems
+    //            Meaningful => meaningful
+
+    /**
+     * 
+     * @param name unique identifier among the rails
+     * @param localEnds [0] should be the origin
+     * @param canFlip Impossible => Flip.No only
+     *                DontCare => flip will be Flip.No, but one can specify Flip.Yes
+     *                Meaningful => set to given parameter
+     * @param hasPole Impossible => origin's pole must be Pole.Plus
+     *                DontCare => will be normalized to Pole.Plus, by flipping and
+     *                            setting the origin to other end,
+     *                            therefore localEnds should have exact 2 elems
+     *                Meaningful => meaningful     */
+    public constructor(
+        public name: String,
+        public localEnds: End[],       
+        public canFlip: Meaning,
+        public hasPole: Meaning) {
+    }
+    
     /**
      * このメソッドでは，端点termを指定された場合は，原点の座標に戻してインスタンスを作る．
      * @param term a valid index of localEnds.
@@ -55,8 +81,34 @@ export abstract class RailFactory {
      * @param flip isFlipped
      */
     public create(term: number, termEnd: End, flip: Flip): RailInstance {
-        let origin = this.convert(term, 0, termEnd, flip);
-        return { origin: origin, flip: flip };
+        var o = this.convert(term, 0, termEnd, flip);
+        var f = flip;
+
+        // 重複が発生するため処理する．
+        if (o.pole.isMinus()) {
+            if (this.hasPole === Meaning.Meaningful) {
+                // 正規化の余地なし
+            } else if (this.hasPole === Meaning.DontCare) {
+                // もう片方の端点を原点として作り直す
+                o = this.convert(0, 1, o, f);
+                f = f.opposite();
+            } else { // hasPole is Impossible
+                throw "this kind of rail can't have minus-pole origin";
+            }
+        }
+
+        // normalize flip
+        if (f.isYes()) {
+            if (this.canFlip === Meaning.Meaningful) {
+                // proceed
+            } else if (this.canFlip === Meaning.DontCare) {
+                f = Flip.No;
+            } else { // canFlip is Impossible
+                throw "this kind of rail can't be flipped";
+            }
+        } 
+
+        return { origin: o, flip: f };
     }
 
     public convert(from: number, to: number, end: End, flip: Flip): End {
@@ -69,7 +121,8 @@ export abstract class RailFactory {
         return origin;
     }
 
-    public canCreate(term: number, origin: End, flip: Flip): boolean {
+    public canCreate(term: number, origin_: End, flip: Flip): boolean {
+        let origin = this.convert(term, 0, origin_, flip);
         if (term < 0 || this.localEnds.length <= term ) {
             return false;
         } else if (this.canFlip === Meaning.Impossible && flip.hasEffect()) {
@@ -105,67 +158,49 @@ export class StraightRailFactory extends RailFactory {
     public localEnds = [this.O, this.S];
     public canFlip = Meaning.DontCare;
     public hasPole = Meaning.DontCare;
-
-    public create(term: number, origin: End, flip: Flip) {
-        let { origin: o, flip: f } = super.create(term, origin, flip);
-
-        // 重複が発生するため処理する．
-        if (o.pole.isMinus()) {
-            let newOrigin = this.convert(0, 1, o, f);
-            return { origin: newOrigin, flip: Flip.No };
-        } else {
-            return { origin: o, flip: Flip.No };
-        }
-    }
 }
 
-export const Straight = new StraightRailFactory();
+let origin    = End.plus(Point.zero(), Dir.East);
+let straight1 = End.minus(Point.of(Rot.of(1)), Dir.West);
+let straight2 = End.minus(Point.of(Rot.of(2)), Dir.West);
+let straight4 = End.minus(Point.of(Rot.of(4)), Dir.West);
+let straight6 = End.minus(Point.of(Rot.of(6)), Dir.West);
+let straight8 = End.minus(Point.of(Rot.of(8)), Dir.West);
+let straight4_slope = End.minus(Point.of(Rot.of(4), Rot.zero(), 1), Dir.West);
+let straight8_slope = End.minus(Point.of(Rot.of(8), Rot.zero(), 4), Dir.West);
 
-export class CurveRailFactory extends RailFactory {
-    readonly O = End.plus(Point.zero(), Dir.East);
-    readonly C = End.minus(Point.of(Rot.of(0, 0, 4, -4)), Dir.SouthWest);
-    
-    public name = "1/8 curve";
-    public localEnds = [this.O, this.C];
-    public canFlip = Meaning.DontCare;
-    public hasPole = Meaning.DontCare;
-
-    public create(term: number, origin: End, flip: Flip) {
-        let { origin: o, flip: f } = super.create(term, origin, flip);
-
-        // 重複が発生する．
-        if (o.pole.isMinus()) {
-            let newOrigin = this.convert(0, 1, o, f)
-            return { origin: newOrigin, flip: f.opposite() };
-        } else {
-            return { origin: o, flip: f };
-        }
-    }
-}
-
-export const Curve = new CurveRailFactory();
+let curve4_8  = End.minus(Point.of(Rot.of(0, 0, 4, -4)), Dir.SouthWest);
+let curve6_8  = End.minus(Point.of(Rot.of(2, 0, 4, -4)), Dir.SouthWest);
+let curve4_4  = End.minus(Point.of(Rot.of(4, 4, 0, 0)), Dir.South);
 
 
-export class SlopeRailFactory extends RailFactory {
-    readonly O = End.plus(Point.zero(), Dir.East);
-    readonly S = End.minus(Point.of(Rot.of(8), Rot.of(0), 4), Dir.West);
-    
-    public name = "slope";
-    public localEnds = [this.O, this.S];
-    public canFlip = Meaning.Meaningful;
-    public hasPole = Meaning.DontCare;
+export const Straight = new RailFactory(
+    "straight_1",
+    [origin, straight4],
+    Meaning.DontCare,
+    Meaning.DontCare
+);
 
-    public create(term: number, origin: End, flip: Flip) {
-        let { origin: o, flip: f } = super.create(term, origin, flip);
 
-        // 重複が発生するため処理する．
-        if (o.pole.isMinus()) {
-            let newOrigin = this.convert(0, 1, o, f);
-            return { origin: newOrigin, flip: f.opposite() };
-        } else {
-            return { origin: o, flip: f };
-        }
-    }
-}
+export const Curve = new RailFactory(
+    "curve_8",
+    [origin, curve4_8],
+    Meaning.Meaningful,
+    Meaning.DontCare
+);
 
-export const Slope = new SlopeRailFactory();
+
+export const Slope = new RailFactory(
+    "slope",
+    [origin, straight8_slope],
+    Meaning.Meaningful,
+    Meaning.DontCare
+);
+
+export const Turnout = new RailFactory(
+    "turnout",
+    [origin, straight4, curve4_8],
+    Meaning.Meaningful,
+    Meaning.Meaningful
+);
+
