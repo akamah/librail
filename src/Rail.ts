@@ -150,16 +150,6 @@ export class Rail {
 }
 
 
-export class StraightRailFactory extends RailFactory {
-    readonly O = End.plus(Point.zero(), Dir.East);
-    readonly S = End.minus(Point.of(Rot.of(4)), Dir.West);
-    
-    public name = "1/1 straight";
-    public localEnds = [this.O, this.S];
-    public canFlip = Meaning.DontCare;
-    public hasPole = Meaning.DontCare;
-}
-
 let origin    = End.plus(Point.zero(), Dir.East);
 let straight1 = End.minus(Point.of(Rot.of(1)), Dir.West);
 let straight2 = End.minus(Point.of(Rot.of(2)), Dir.West);
