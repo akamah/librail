@@ -43,14 +43,6 @@ export declare class Rail {
     constructor(factory: RailFactory, term: number, origin: End, flip: Flip);
     ends(): End[];
 }
-export declare class StraightRailFactory extends RailFactory {
-    readonly O: End;
-    readonly S: End;
-    name: string;
-    localEnds: End[];
-    canFlip: Meaning;
-    hasPole: Meaning;
-}
 export declare const Straight: RailFactory;
 export declare const Curve: RailFactory;
 export declare const Slope: RailFactory;

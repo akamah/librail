@@ -135,18 +135,6 @@ class Rail {
     }
 }
 exports.Rail = Rail;
-class StraightRailFactory extends RailFactory {
-    constructor() {
-        super(...arguments);
-        this.O = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);
-        this.S = End_1.End.minus(Point_1.Point.of(Rot_1.Rot.of(4)), Dir_1.Dir.West);
-        this.name = "1/1 straight";
-        this.localEnds = [this.O, this.S];
-        this.canFlip = Meaning.DontCare;
-        this.hasPole = Meaning.DontCare;
-    }
-}
-exports.StraightRailFactory = StraightRailFactory;
 let origin = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);
 let straight1 = End_1.End.minus(Point_1.Point.of(Rot_1.Rot.of(1)), Dir_1.Dir.West);
 let straight2 = End_1.End.minus(Point_1.Point.of(Rot_1.Rot.of(2)), Dir_1.Dir.West);
