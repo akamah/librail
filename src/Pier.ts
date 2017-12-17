@@ -10,9 +10,18 @@ import { FromTo } from './Transform'
 export class Pier {
     public name = "pier"
     public height = 4;
+    public origin: End;
 
-    constructor(public origin: Point, public dir: Dir) {
-        this.dir = new Dir(this.dir.dir % 4);
+    constructor(at: End) {
+        this.origin = this.normalizeEnd(at);
+    }
+
+    private normalizeEnd(e: End): End {
+        return new End(e.point, this.normalizeDir(e.dir), Pole.Plus);
+    }
+
+    private normalizeDir(d: Dir): Dir {
+        return new Dir(d.dir % 4);
     }
 }
 
@@ -24,8 +33,13 @@ export class MiniPier extends Pier {
 export class CustomPier extends Pier {
     public name = "CustomPier";
 
-    constructor(origin: Point, dir: Dir, public floors: number[]) {
-        super(origin, dir);
+    constructor(at: End, public floors: number[]) {
+        super(at);
+    }
+
+    private endWithReplacingUp(end: End, up: number): End {
+        let p = new Point(this.origin.point.single, this.origin.point.double, up);
+        return new End(p, this.origin.dir, this.origin.pole);
     }
 
     public equivalentPiers(): Pier[] {
@@ -35,12 +49,12 @@ export class CustomPier extends Pier {
         this.floors.sort().forEach(n => {
             // n階層になるまで建て続ける
             for (; current + 4 <= n; current += 4) {
-                let e = new Point(this.origin.single, this.origin.double, current);
-                piers.push(new Pier(e, this.dir));
+                let e = this.endWithReplacingUp(this.origin, current);
+                piers.push(new Pier(e));
             }
             for (; current + 1 <= n; current += 1) {
-                let e = new Point(this.origin.single, this.origin.double, current);
-                piers.push(new MiniPier(e, this.dir));
+                let e = this.endWithReplacingUp(this.origin, current);
+                piers.push(new MiniPier(e));
             }
             // n階になった．
         });

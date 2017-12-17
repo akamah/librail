@@ -66,12 +66,15 @@ export class RailFactory {
      *                DontCare => will be normalized to Pole.Plus, by flipping and
      *                            setting the origin to other end,
      *                            therefore localEnds should have exact 2 elems
-     *                Meaningful => meaningful     */
+     *                Meaningful => meaningful
+     * @param localPierPoints an point to set a pier, pole will be ignored
+     */
     public constructor(
         public name: String,
         public localEnds: End[],       
         public canFlip: Meaning,
-        public hasPole: Meaning) {
+        public hasPole: Meaning,
+        public localPierEnds = localEnds) {
     }
     
     /**
@@ -141,11 +144,16 @@ export class Rail {
         this.instance = factory.create(term, origin, flip);
     }
 
-     // この部分はすべてのレールに共通なわけだ
+    public localToGlobal(local: End): End {
+        return this.instance.origin.apply(this.instance.flip.apply(local));
+    }
+
     public ends(): End[] {
-        return this.factory.localEnds.map(e => {
-            return this.instance.origin.apply(this.instance.flip.apply(e));
-        });
+        return this.factory.localEnds.map(e => this.localToGlobal(e));
+    }
+
+    public pierPoints(): End[] {
+        return this.factory.localPierEnds.map(e => this.localToGlobal(e));        
     }
 }
 
