@@ -1,13 +1,20 @@
-import { Point } from './Point';
-import { Dir } from './Dir';
+import { End } from './End';
 export declare class Pier {
-    origin: Point;
-    dir: Dir;
     name: string;
     height: number;
-    constructor(origin: Point, dir: Dir);
+    origin: End;
+    constructor(at: End);
+    private normalizeEnd(e);
+    private normalizeDir(d);
 }
 export declare class MiniPier extends Pier {
     name: string;
     height: number;
+}
+export declare class CustomPier extends Pier {
+    floors: number[];
+    name: string;
+    constructor(at: End, floors: number[]);
+    private endWithReplacingUp(end, up);
+    equivalentPiers(): Pier[];
 }

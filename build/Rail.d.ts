@@ -14,6 +14,7 @@ export declare class RailFactory {
     localEnds: End[];
     canFlip: Meaning;
     hasPole: Meaning;
+    localPierEnds: End[];
     /**
      *
      * @param name unique identifier among the rails
@@ -25,8 +26,10 @@ export declare class RailFactory {
      *                DontCare => will be normalized to Pole.Plus, by flipping and
      *                            setting the origin to other end,
      *                            therefore localEnds should have exact 2 elems
-     *                Meaningful => meaningful     */
-    constructor(name: String, localEnds: End[], canFlip: Meaning, hasPole: Meaning);
+     *                Meaningful => meaningful
+     * @param localPierPoints an point to set a pier, pole will be ignored
+     */
+    constructor(name: String, localEnds: End[], canFlip: Meaning, hasPole: Meaning, localPierEnds?: End[]);
     /**
      * このメソッドでは，端点termを指定された場合は，原点の座標に戻してインスタンスを作る．
      * @param term a valid index of localEnds.
@@ -41,7 +44,9 @@ export declare class Rail {
     factory: RailFactory;
     instance: RailInstance;
     constructor(factory: RailFactory, term: number, origin: End, flip: Flip);
+    localToGlobal(local: End): End;
     ends(): End[];
+    pierPoints(): End[];
 }
 export declare const Straight: RailFactory;
 export declare const Curve: RailFactory;
