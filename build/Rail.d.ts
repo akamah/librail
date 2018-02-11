@@ -47,6 +47,8 @@ export declare class Rail {
     localToGlobal(local: End): End;
     ends(): End[];
     pierPoints(): End[];
+    toString(): string;
+    valueOf(): string;
 }
 export declare const Straight: RailFactory;
 export declare const Curve: RailFactory;

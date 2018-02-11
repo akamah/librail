@@ -139,6 +139,12 @@ class Rail {
     pierPoints() {
         return this.factory.localPierEnds.map(e => this.localToGlobal(e));
     }
+    toString() {
+        return this.valueOf();
+    }
+    valueOf() {
+        return `${this.factory.name}(${this.instance.origin.valueOf()},${this.instance.flip.valueOf()})`;
+    }
 }
 exports.Rail = Rail;
 let origin = End_1.End.plus(Point_1.Point.zero(), Dir_1.Dir.East);

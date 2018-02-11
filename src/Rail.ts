@@ -155,6 +155,14 @@ export class Rail {
     public pierPoints(): End[] {
         return this.factory.localPierEnds.map(e => this.localToGlobal(e));        
     }
+
+    public toString(): string {
+        return this.valueOf();
+    }
+
+    public valueOf(): string {
+        return `${this.factory.name}(${this.instance.origin.valueOf()},${this.instance.flip.valueOf()})`;
+    }
 }
 
 
