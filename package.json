@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "pretest": "tsc",
-    "test": "mocha --compilers ts:espower-typescript/guess test/*.test.ts"
+    "test": "mocha --require espower-typescript/guess test/*.test.ts",
+    "watch": "mocha --watch-extensions ts -w --require espower-typescript/guess test/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,9 @@
     "@types/mocha": "^2.2.43",
     "@types/power-assert": "^1.4.29",
     "espower-typescript": "^8.1.1",
-    "mocha": "^3.5.3",
+    "mocha": "^6.2.0",
     "power-assert": "^1.4.4",
-    "typescript": "^2.5.2"
+    "typescript": "^2.9.2"
   },
   "dependencies": {
     "@types/node": "^8.0.28"

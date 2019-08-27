@@ -83,7 +83,7 @@ class RailFactory {
                 o = this.convert(0, 1, o, f);
                 f = f.opposite();
             }
-            else {
+            else { // hasPole is Impossible
                 throw "this kind of rail can't have minus-pole origin";
             }
         }
@@ -95,7 +95,7 @@ class RailFactory {
             else if (this.canFlip === Meaning.DontCare) {
                 f = Flip_1.Flip.No;
             }
-            else {
+            else { // canFlip is Impossible
                 throw "this kind of rail can't be flipped";
             }
         }

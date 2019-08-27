@@ -3,7 +3,7 @@ import { Flip } from './Flip';
 export declare enum Meaning {
     Impossible = 0,
     DontCare = 1,
-    Meaningful = 2,
+    Meaningful = 2
 }
 export declare type RailInstance = {
     origin: End;

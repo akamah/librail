@@ -4,8 +4,8 @@ export declare class Pier {
     height: number;
     origin: End;
     constructor(at: End);
-    private normalizeEnd(e);
-    private normalizeDir(d);
+    private normalizeEnd;
+    private normalizeDir;
 }
 export declare class MiniPier extends Pier {
     name: string;
@@ -15,6 +15,6 @@ export declare class CustomPier extends Pier {
     floors: number[];
     name: string;
     constructor(at: End, floors: number[]);
-    private endWithReplacingUp(end, up);
+    private endWithReplacingUp;
     equivalentPiers(): Pier[];
 }
